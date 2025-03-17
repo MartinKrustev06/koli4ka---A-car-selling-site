@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>коли4ка - Обяви за коли</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9ff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #6D28D9;
+            color: white;
+            padding: 20px 0;
+            max-height: 140px;
+        }
+
+        .header__container {
+            display: flex;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-content: space-between;
+        }
+
+        .header__logo {
+            width: 120px;
+        }
+
+        .header__title {
+            left: 50%;
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+        }
+
+        .ads-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .car-ad {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .car-ad:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .car-ad img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            height: 200px;
+        }
+
+        .car-ad h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #6D28D9;
+            text-align: center;
+        }
+
+        .car-ad .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .car-ad .details p {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .car-ad .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6D28D9;
+            margin-top: 15px;
+            grid-column: span 2;
+            text-align: center;
+            background-color: #f0f0ff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        a {
+            display: block;
+            text-decoration: none; /* Премахва подчертаването */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <img src="/images/koli4ka-logo.png" alt="Лого" class="logo">
+        <h1 class="site-title">коли4ка</h1>
+    </div>
+</header>
+
+<div class="ads-container">
+    <!-- Примерна обява 1 -->
+    <a href="#" class="car-ad">
+        <img src="https://www.daskalo.com/rado00o1/files/2016/06/cropped-maxresdefault.jpg" alt="Car 1">
+        <h2>Mercedes-Benz C200</h2>
+        <div class="details">
+            <p>Мощност: 184 к.с.</p>
+
+            <p>Пробег: 60,000 км</p>
+            <p>година: 2018</p>
+            <p>Скоростна кутия: Автоматична</p>
+            <p>Гориво:Дизел</p>
+            <p class="price">35,000 лв.</p>
+        </div>
+    </a>
+
+    <!-- Примерна обява 2 -->
+    <a href="#" class="car-ad">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkMa5nc8TsQv49NV66I15S_E70CIlWUjxLCg&s" alt="Car 2">
+        <h2>BMW 320i</h2>
+        <div class="details">
+            <p>184 к.с.</p>
+            <p>Автоматична</p>
+            <p>2019</p>
+            <p>50,000 км</p>
+            <p>Бензин</p>
+            <p class="price">40,000 лв.</p>
+        </div>
+    </a>
+
+    <!-- Примерна обява 3 -->
+    <a href="#" class="car-ad">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNmA5H4gbNXRgaze8zTQryH36cdMJqCpkBfA&s" alt="Car 3">
+        <h2>Audi A4</h2>
+        <div class="details">
+            <p>190 к.с.</p>
+            <p>Автоматична</p>
+            <p>2017</p>
+            <p>70,000 км</p>
+            <p>Дизел</p>
+            <p class="price">38,000 лв.</p>
+        </div>
+    </a>
+</div>
+
+</body>
+</html>

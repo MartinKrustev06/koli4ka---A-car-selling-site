@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>коли4ка - Начална страница</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+        }
+
+         header {
+            background-color: #6D28D9;
+            color: white;
+          
+          
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-content: space-between;
+            height: 150px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: 120px;
+        }
+
+        .header-title {       
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .extra{
+            width: 150px;
+            color: #6D28D9;
+        }
+
+
+
+
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .intro-text {
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .description-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .warning-text {
+            font-size: 16px;
+            color: #6D28D9;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .auth-buttons-container {
+            display: flex;
+            gap: 30px;
+        }
+
+        .auth-button {
+            background-color: white;
+            color: #6D28D9;
+            border: 2px solid #6D28D9;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .auth-button:hover {
+            background-color: #4C1D95;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <img src="/app/src/main/resources/static/images/koli4ka-logo.png" alt="Лого" class="header-logo">
+        <h1 class="header-title">коли4ка</h1>
+        <p class="extra">asd</p>
+    </div>
+</header>
+
+<div class="main-container">
+    <p class="intro-text">Търсите нова кола? Или искате да продадете старата?</p>
+
+    <p class="description-text">Намерете или продайте автомобили лесно и бързо с коли4ка!</p>
+
+    <p class="warning-text">За да използвате всички функции на сайта, трябва да влезете в акаунта си. Ако нямате акаунт, моля, регистрирайте се!</p>
+
+    <div class="auth-buttons-container">
+        <a href="/login"><button class="auth-button login-button">Вход</button></a>
+        <a href="/register">  <button class="auth-button register-button">Регистрация</button></a>
+    </div>
+</div>
+</body>
+</html>

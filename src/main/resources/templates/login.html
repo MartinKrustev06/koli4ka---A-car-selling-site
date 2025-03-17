@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6; 
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #6D28D9;
+            color: white;
+          
+          
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-content: space-between;
+            height: 150px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: 120px;
+        }
+
+        .header-title {       
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .extra{
+            width: 150px;
+            color: #6D28D9;
+        }
+
+        .login-section {
+            background-color: #EDE7F6;
+            padding: 40px 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #6D28D9;
+            border-radius: 5px;
+            background-color: white;
+            color: #6D28D9;
+            box-sizing: border-box;
+        }
+
+        .login-button {
+            background-color: #6D28D9;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .login-button:hover {
+            background-color: #5a21b5;
+        }
+
+        h2 {
+            margin-bottom: 2em;
+        }
+
+        .register-link {
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #5a21b5;
+            cursor: pointer;
+           
+        }
+
+        .register-text {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .register-text span {
+            color:#5a21b5; 
+        }
+        .register-here{
+        font-weight: bold;
+        color:#5a21b5; 
+        }
+
+        @media (max-width: 768px) {
+            .site-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <img src="/app/src/main/resources/static/images/koli4ka-logo.png" alt="Лого" class="header-logo">
+            <h1 class="header-title">коли4ка</h1>
+            <p class="extra">asd</p>
+        </div>
+    </header>
+
+
+    <section class="login-section">
+        <div class="login-container">
+            <h2>Вход в акаунт</h2>
+            <form th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
+                <div class="form-group">
+                    <label for="username">Потребителско име</label>
+                    <input type="text" id="username" placeholder="Въведете потребителско име" required th:field="*{username}">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Парола</label>
+                    <input type="password" id="password" placeholder="Въведете парола" required th:field="*{password}">
+                </div>
+
+                <button type="submit" class="login-button">Вход</button>
+            </form>
+
+            <!-- Текст за регистрация -->
+            <div class="register-text">
+                <span>Нямате акаунт? <a class="register-here" href="/register">Регистрирайте се тук.</a></span> 
+            </div>
+        </div>
+    </section>
+</body>
+</html>

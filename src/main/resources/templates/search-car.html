@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>коли4ка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #6D28D9;
+            color: white;
+
+
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-content: space-between;
+            height: 150px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: 120px;
+        }
+
+        .header-title {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .profile{
+            display: flex;
+            text-align: center;
+            align-items: center;
+            gap: 15px;
+
+        }
+        .profile-picture{
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+
+
+        }
+        .profile p{
+            font-size: 18px;
+            font-weight: bolder;
+        }
+
+        .search-section {
+            background-color: #EDE7F6;
+            padding: 40px 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #6D28D9;
+            border-radius: 5px;
+            background-color: white;
+            color: #6D28D9;
+            box-sizing: border-box;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-button {
+            background-color: #6D28D9;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .search-button:hover {
+            background-color: #5a21b5;
+        }
+
+        .sell-car{
+            background-color: #6D28D9;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 30%;
+
+        }
+        .sell-car-container{
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+        .sell-car-container h2{
+            margin-bottom: 0.5em;
+            font-size: 2em;
+        }
+
+        .sell-car:hover {
+            background-color: #5a21b5;
+        }
+
+        .find-car {
+            margin-top: 2em;
+            margin-bottom: 2em;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+
+
+        @media (max-width: 768px) {
+            .header__title {
+                font-size: 32px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
+        <a href="/"><h1 class="header-title">коли4ка</h1></a>
+        <a th:href="@{/users/${user.id}/profile}">
+            <div class="profile">
+            <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
+            <p th:text="${user.firstName}" >ivan</p>
+        </div>
+        </a>
+
+
+    </div>
+</header>
+
+<section class="search-section">
+    <div class="search-container">
+        <h2 class="find-car">Намерете своята кола</h2>
+        <form th:action="@{/cars/search}" th:method="POST" th:object="${searchCarRequest}">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="brand">Марка</label>
+                    <input type="text" id="brand" placeholder="Въведете марка">
+                </div>
+
+                <div class="form-group">
+                    <label for="model">Модел</label>
+                    <input type="text" id="model" placeholder="Въведете модел">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="yearFrom">Година от</label>
+                    <input type="text" id="yearFrom" placeholder="Въведете година от">
+                </div>
+
+                <div class="form-group">
+                    <label for="yearTo">Година до</label>
+                    <input type="text" id="yearTo" placeholder="Въведете година до">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fuelType">Тип гориво</label>
+                    <select id="fuelType">
+                        <option>Тип гориво</option>
+                        <option>Бензин</option>
+                        <option>Дизел</option>
+                        <option>Газ</option>
+                        <option>Електрическо</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transmission">Вид трансмисия</label>
+                    <select id="transmission">
+                        <option>Вид трансмисия</option>
+                        <option>Ръчна</option>
+                        <option>Автоматична</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="maxPrice">Максимална цена (лв.)</label>
+                    <input type="number" id="maxPrice" placeholder="Максимална цена">
+                </div>
+            </div>
+
+            <button type="submit" class="search-button">Търси</button>
+        </form>
+
+        <div class="sell-car-section" >
+            <div class="sell-car-container">
+                <h2>Искате да продадете вашата кола?</h2>
+                <p>Направете своята безплатна обява с бутона отдолу</p>
+            </div>
+
+            <a class="search-button" th:href="@{/cars/new}"> Създайте обява</a>
+
+        </div>
+    </div>
+</section>
+</body>
+</html>

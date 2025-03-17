@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>коли4ка - Добавяне на кола</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { height: 100%; font-family: Arial, sans-serif; background-color: #EDE7F6; color: #6D28D9; display: flex; flex-direction: column; }
+        header { background-color: #6D28D9; color: white; padding: 20px 0; flex-shrink: 0; }
+        .header-container { display: flex; align-items: center; position: relative; max-width: 1200px; margin: 0 auto; }
+        .logo { width: 120px; }
+        .site-title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 48px; font-weight: bold; }
+        .auth-buttons { margin-left: auto; display: flex; gap: 20px; }
+        .auth-button { background-color: white; color: #6D28D9; border: 2px solid #6D28D9; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s ease; }
+        .auth-button:hover { background-color: #4C1D95; color: white; transform: translateY(-3px); }
+        .car-form { width: 40%; margin: 20px auto; padding: 40px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; gap: 20px; }
+        .car-form label { font-weight: bold; }
+        .car-form input, .car-form select { width: 100%; padding: 15px 30px; border: 2px solid #6D28D9; border-radius: 10px; background-color: white; color: #6D28D9; }
+        .error-message { color: red; font-size: 14px; margin-top: -15px; }
+        .submit-button { background-color: #6D28D9; color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-size: 18px; font-weight: bold; transition: background 0.3s; }
+        .submit-button:hover { background-color: #5a21b5; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <img src="../static/images/koli4ka-logo.png" alt="Лого" class="logo">
+        <h1 class="site-title">коли4ка</h1>
+    </div>
+</header>
+
+<form th:action="@{/cars/new}" th:method="POST" class="car-form" th:object="${createCarRequest}">
+    <label for="brand">Марка:</label>
+    <input type="text" id="brand" th:field="*{brand}" required placeholder="Въведете марката на колата">
+    <p class="error-message" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></p>
+
+    <label for="model">Модел:</label>
+    <input type="text" id="model" th:field="*{model}" required placeholder="Въведете модела на колата">
+    <p class="error-message" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></p>
+
+    <label for="year">Година:</label>
+    <input type="text" id="year" th:field="*{year}" min="1980" max="2025" required>
+    <p class="error-message" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
+
+    <label for="price">Цена (лв):</label>
+    <input type="text" id="price" th:field="*{price}" min="1" required>
+    <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+
+    <label for="horsepower">Конски сили:</label>
+    <input type="text" id="horsepower" th:field="*{power}" min="1" required>
+    <p class="error-message" th:if="${#fields.hasErrors('power')}" th:errors="*{power}"></p>
+
+    <label for="fuel">Вид гориво:</label>
+    <select id="fuel" th:field="*{fuelType}" required>
+        <option th:each="fuel : ${T(com.koli4ka.app.car.model.FuelType).values()}"  th:value="${fuel}"  th:text="${fuel}">
+        </option>
+    </select>
+
+
+    <p class="error-message" th:if="${#fields.hasErrors('fuelType')}" th:errors="*{fuelType}"></p>
+
+    <label for="transmission">Трансмисия:</label>
+    <select id="transmission" th:field="*{transmission}" required>
+        <option th:each="trans : ${T(com.koli4ka.app.car.model.TransmissionType).values()}" th:value="${trans}" th:text="${trans}"></option>
+    </select>
+    <p class="error-message" th:if="${#fields.hasErrors('transmission')}" th:errors="*{transmission}"></p>
+
+    <label for="mileage">Пробег (км):</label>
+    <input type="text" id="mileage" th:field="*{mileage}"  required>
+    <p class="error-message" th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"></p>
+
+    <label for="location">Локация:</label>
+    <input type="text" id="location" th:field="*{location}" required>
+    <p class="error-message" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
+
+    <label for="image">Линк към снимка:</label>
+    <input type="url" id="image" th:field="*{imageUrl}" required>
+    <p class="error-message" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></p>
+
+    <button type="submit" class="submit-button">Добави кола</button>
+</form>
+</body>
+</html>
