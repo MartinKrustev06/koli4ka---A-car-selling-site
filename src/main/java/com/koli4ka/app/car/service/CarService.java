@@ -54,8 +54,8 @@ public class CarService {
         if (request.getFuelType() != null && !request.getFuelType().isEmpty()) {
             predicates.add(cb.equal(car.get("fuelType"), request.getFuelType()));
         }
-        if (request.getTransmissionType() != null && !request.getTransmissionType().isEmpty()) {
-            predicates.add(cb.equal(car.get("transmissionType"), request.getTransmissionType()));
+        if (request.getTransmission() != null) {
+            predicates.add(cb.equal(car.get("transmission"), request.getTransmission()));
         }
         if (request.getMaxPrice() != 0) {
             predicates.add(cb.lessThanOrEqualTo(car.get("price"), request.getMaxPrice()));
@@ -83,6 +83,7 @@ public class CarService {
                 .price(createCarRequest.getPrice())
                 .transmission(createCarRequest.getTransmission())
                 .fuelType(createCarRequest.getFuelType())
+                .power(createCarRequest.getPower())
                 .imageUrl(createCarRequest.getImageUrl())
                 .mileage(createCarRequest.getMileage())
                 .location(createCarRequest.getLocation())

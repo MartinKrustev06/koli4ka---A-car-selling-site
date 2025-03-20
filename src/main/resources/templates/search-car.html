@@ -182,8 +182,6 @@
                 <p th:text="${user.firstName}" >ivan</p>
             </div>
         </a>
-
-
     </div>
 </header>
 
@@ -194,39 +192,43 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="brand">Марка</label>
-                    <input type="text" id="brand" placeholder="Въведете марка">
+                    <input type="text" id="brand" th:field="*{brand}" placeholder="Въведете марка">
                 </div>
 
                 <div class="form-group">
                     <label for="model">Модел</label>
-                    <input type="text" id="model" placeholder="Въведете модел">
+                    <input type="text" id="model" th:field="*{model}" placeholder="Въведете модел">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="yearFrom">Година от</label>
-                    <input type="text" id="yearFrom" placeholder="Въведете година от">
+                    <input type="text" id="yearFrom" th:field="*{fromYear}" placeholder="Въведете година от">
                 </div>
 
                 <div class="form-group">
                     <label for="yearTo">Година до</label>
-                    <input type="text" id="yearTo" placeholder="Въведете година до">
+                    <input type="text" id="yearTo" th:field="*{toYear}" placeholder="Въведете година до">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="fuelType">Тип гориво</label>
-                    <select id="fuelType">
-                        <option th:each="fuel : ${T(com.koli4ka.app.car.model.FuelType).values()}"  th:value="${fuel}"  th:text="${fuel}">
+                    <select id="fuelType" th:field="*{fuelType}">
+                        <option value=""> </option>
+                        <option th:each="fuel : ${T(com.koli4ka.app.car.model.FuelType).values()}"
+                                th:value="${fuel}" th:text="${fuel}"></option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="transmission">Вид трансмисия</label>
-                    <select id="transmission">
-                        <option th:each="trans : ${T(com.koli4ka.app.car.model.TransmissionType).values()}" th:value="${trans}" th:text="${trans}"></option>
+                    <select id="transmission" th:field="*{transmission}">
+                        <option value=""> </option>
+                        <option th:each="trans : ${T(com.koli4ka.app.car.model.TransmissionType).values()}"
+                                th:value="${trans}" th:text="${trans}"></option>
                     </select>
                 </div>
             </div>
@@ -234,12 +236,13 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="maxPrice">Максимална цена (лв.)</label>
-                    <input type="number" id="maxPrice" placeholder="Максимална цена">
+                    <input type="number" id="maxPrice" th:field="*{maxPrice}" placeholder="Максимална цена">
                 </div>
             </div>
 
             <button type="submit" class="search-button">Търси</button>
         </form>
+
 
         <div class="sell-car-section" >
             <div class="sell-car-container">

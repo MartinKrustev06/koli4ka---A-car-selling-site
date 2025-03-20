@@ -78,6 +78,10 @@
     <input type="url" id="image" th:field="*{imageUrl}" required>
     <p class="error-message" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></p>
 
+
+    <label for="description">Допълнителна информация: </label>
+    <input type="text" id="description" th:field="*{description}">
+
     <button type="submit" class="submit-button">Добави кола</button>
 </form>
 </body>

@@ -63,6 +63,10 @@
             font-size: 18px;
             font-weight: bolder;
         }
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
 
         .ads-container {
             flex-grow: 1;
@@ -80,7 +84,7 @@
             margin: 20px 0;
             padding: 20px;
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -94,18 +98,20 @@
 
         .car-ad img {
             width: 100%;
-            max-width: 400px;
+            max-width: 550px;
             border-radius: 10px;
             margin-bottom: 20px;
             object-fit: cover;
-            height: 200px;
+            height: 300px;
         }
 
         .car-ad h2 {
             font-size: 28px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
+            margin-top: 25px;
             color: #6D28D9;
             text-align: center;
+
         }
 
         .car-ad .details {
@@ -113,8 +119,8 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             width: 100%;
-            max-width: 400px;
-            text-align: center;
+            max-width: 530px;
+
         }
 
         .car-ad .details p {
@@ -146,9 +152,9 @@
 
 <header>
     <div class="header-container">
-        <img src="/images/koli4ka-logo.png" alt="Лого" class="logo">
-        <h1 class="site-title">коли4ка</h1>
-        <a th:href="@{/users/${user.id}/profile}">
+        <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
+        <a href="/"><h1 class="header-title">коли4ка</h1></a>
+        <a th:href="@{/users/{id}(id=${user.id})}" >
             <div class="profile">
                 <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
                 <p th:text="${user.firstName}" >ivan</p>
@@ -158,48 +164,21 @@
 </header>
 
 <div class="ads-container">
-    <!-- Примерна обява 1 -->
-    <a href="#" class="car-ad">
-        <img src="https://www.daskalo.com/rado00o1/files/2016/06/cropped-maxresdefault.jpg" alt="Car 1">
-        <h2>Mercedes-Benz C200</h2>
-        <div class="details">
-            <p>Мощност: 184 к.с.</p>
 
-            <p>Пробег: 60,000 км</p>
-            <p>година: 2018</p>
-            <p>Скоростна кутия: Автоматична</p>
-            <p>Гориво:Дизел</p>
-            <p class="price">35,000 лв.</p>
+    <a href="#" class="car-ad" th:each="car:${cars}">
+        <img th:src="${car.imageUrl}" alt="Car">
+        <h2 th:text="${car.brand + ' ' + car.model}">Mercedes-Benz C200</h2>
+        <div class="details">
+            <p th:text="'Мощност: ' + ${car.power} + ' к.с.'"></p>
+            <p th:text="'Пробег: ' + ${car.mileage} + ' км'"></p>
+            <p th:text="'Година: ' + ${car.year}"></p>
+            <p th:text="'Скоростна кутия: ' + ${car.transmission}"></p>
+            <p th:text="'Гориво: ' + ${car.fuelType}"></p>
+            <p class="price" th:text="'Цена: ' + ${car.price} + ' лв.'"></p>
         </div>
     </a>
 
-    <!-- Примерна обява 2 -->
-    <a href="#" class="car-ad">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkMa5nc8TsQv49NV66I15S_E70CIlWUjxLCg&s" alt="Car 2">
-        <h2>BMW 320i</h2>
-        <div class="details">
-            <p>184 к.с.</p>
-            <p>Автоматична</p>
-            <p>2019</p>
-            <p>50,000 км</p>
-            <p>Бензин</p>
-            <p class="price">40,000 лв.</p>
-        </div>
-    </a>
 
-    <!-- Примерна обява 3 -->
-    <a href="#" class="car-ad">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNmA5H4gbNXRgaze8zTQryH36cdMJqCpkBfA&s" alt="Car 3">
-        <h2>Audi A4</h2>
-        <div class="details">
-            <p>190 к.с.</p>
-            <p>Автоматична</p>
-            <p>2017</p>
-            <p>70,000 км</p>
-            <p>Дизел</p>
-            <p class="price">38,000 лв.</p>
-        </div>
-    </a>
 </div>
 
 </body>

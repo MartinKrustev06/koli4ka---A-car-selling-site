@@ -43,10 +43,12 @@ public class CarController {
 
 
     @PostMapping("/cars/search")
-    public ModelAndView searchCar(@ModelAttribute SearchCarRequest searchCarRequest, BindingResult bindingResult) {
+    public ModelAndView searchCars(@AuthenticationPrincipal AuthenticationDetails details, SearchCarRequest searchCarRequest, BindingResult bindingResult) {
+        User user = userService.getById(details.getUserId());
         ModelAndView mav = new ModelAndView("offers");
         List<Car> cars=carService.getCars(searchCarRequest);
         mav.addObject("cars", cars);
+        mav.addObject("user", user);
         return mav;
 
     }

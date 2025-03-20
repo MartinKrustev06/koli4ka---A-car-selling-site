@@ -1,5 +1,6 @@
 package com.koli4ka.app.web.dtos;
 
+import com.koli4ka.app.car.model.TransmissionType;
 import lombok.Data;
 
 @Data
@@ -16,15 +17,12 @@ public class SearchCarRequest {
 
     private String fuelType;
 
-    private String transmissionType;
+    private TransmissionType transmission;
 
     private double maxPrice;
 
 
     public boolean areFieldsEmpty(){
-        if (brand == null || model == null || fromYear == null || toYear == null || fuelType == null || transmissionType == null){
-            return true;
-        }
-        return false;
+        return brand == null || model == null || fromYear == null || toYear == null || fuelType == null || transmission == null;
     }
 }
