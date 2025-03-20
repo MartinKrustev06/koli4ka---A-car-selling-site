@@ -219,20 +219,14 @@
                 <div class="form-group">
                     <label for="fuelType">Тип гориво</label>
                     <select id="fuelType">
-                        <option>Тип гориво</option>
-                        <option>Бензин</option>
-                        <option>Дизел</option>
-                        <option>Газ</option>
-                        <option>Електрическо</option>
+                        <option th:each="fuel : ${T(com.koli4ka.app.car.model.FuelType).values()}"  th:value="${fuel}"  th:text="${fuel}">
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="transmission">Вид трансмисия</label>
                     <select id="transmission">
-                        <option>Вид трансмисия</option>
-                        <option>Ръчна</option>
-                        <option>Автоматична</option>
+                        <option th:each="trans : ${T(com.koli4ka.app.car.model.TransmissionType).values()}" th:value="${trans}" th:text="${trans}"></option>
                     </select>
                 </div>
             </div>

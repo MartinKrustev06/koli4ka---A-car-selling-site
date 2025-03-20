@@ -24,8 +24,7 @@ public class UserController {
         mav.addObject("user",user);
         mav.setViewName("user-profile");
         return mav;
-
-
-
     }
+
+
 }
