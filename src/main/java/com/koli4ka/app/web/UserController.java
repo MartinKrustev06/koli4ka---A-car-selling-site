@@ -17,7 +17,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/{id}/")
+    @GetMapping("/users/{id}")
     public ModelAndView getProfile(@PathVariable UUID id) {
         ModelAndView mav = new ModelAndView();
         User user=userService.getById(id);
