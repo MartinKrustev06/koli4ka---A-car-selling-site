@@ -176,11 +176,11 @@
     <div class="header-container">
         <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
         <a href="/"><h1 class="header-title">коли4ка</h1></a>
-        <a th:href="@{/users/${user.id}/profile}">
+        <a th:href="@{/users/{id}(id=${user.id})}" >
             <div class="profile">
-            <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
-            <p th:text="${user.firstName}" >ivan</p>
-        </div>
+                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
+                <p th:text="${user.firstName}" >ivan</p>
+            </div>
         </a>
 
 

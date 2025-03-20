@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профил</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F3E5F5;
+            color: #4A148C;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #6D28D9;
+            color: white;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-content: space-between;
+            height: 150px;
+        }
+
+        .header-logo {
+            width: 130px;
+            height: 130px;
+        }
+
+        .header-title {
+            font-size: 52px;
+            font-weight: bold;
+        }
+
+        .extra {
+            width: 160px;
+            color: #6D28D9;
+        }
+
+        .profile-section {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 25px;
+        }
+
+        .profile-container {
+            max-width: 450px;
+            width: 100%;
+            background-color: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #6D28D9;
+            object-fit: cover;
+        }
+
+        .username {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 18px 0;
+        }
+
+        .profile-button {
+            display: block;
+            background-color: #6D28D9;
+            color: white;
+            padding: 14px 22px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            margin: 12px 0;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .profile-button:hover {
+            background-color: #5a21b5;
+            transform: scale(1.06);
+        }
+
+        .logout-button {
+            background-color: red;
+        }
+
+        .logout-button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <img src="/app/src/main/resources/static/images/koli4ka-logo.png" alt="Лого" class="header-logo">
+        <h1 class="header-title">коли4ка</h1>
+        <p class="extra">asd</p>
+    </div>
+</header>
+
+<section class="profile-section">
+    <div class="profile-container">
+        <img th:src="${user.imageUrl}" alt="Профилна снимка" class="profile-picture">
+
+        <div class="username" th:text="${user.username}"></div>
+        <a th:href="@{/users/{id}/edit(id=${user.id})}" class="profile-button">Редактирай профил</a>
+
+        <a th:href="@{/my-offers}" class="profile-button">Моите обяви</a>
+        <a th:href="@{/logout}" class="profile-button logout-button">Изход</a>
+    </div>
+</section>
+</body>
+</html>

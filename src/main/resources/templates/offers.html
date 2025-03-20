@@ -23,28 +23,45 @@
         header {
             background-color: #6D28D9;
             color: white;
-            padding: 20px 0;
-            max-height: 140px;
+
+
         }
 
-        .header__container {
+        .header-container {
             display: flex;
             align-items: center;
             max-width: 1600px;
             margin: 0 auto;
             justify-content: space-between;
+            height: 150px;
         }
 
-        .header__logo {
+        .header-logo {
             width: 120px;
+            height: 120px;
         }
 
-        .header__title {
-            left: 50%;
+        .header-title {
             font-size: 48px;
             font-weight: bold;
+        }
+        .profile{
+            display: flex;
             text-align: center;
-            margin: 0;
+            align-items: center;
+            gap: 15px;
+
+        }
+        .profile-picture{
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+
+
+        }
+        .profile p{
+            font-size: 18px;
+            font-weight: bolder;
         }
 
         .ads-container {
@@ -131,6 +148,12 @@
     <div class="header-container">
         <img src="/images/koli4ka-logo.png" alt="Лого" class="logo">
         <h1 class="site-title">коли4ка</h1>
+        <a th:href="@{/users/${user.id}/profile}">
+            <div class="profile">
+                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
+                <p th:text="${user.firstName}" >ivan</p>
+            </div>
+        </a>
     </div>
 </header>
 
