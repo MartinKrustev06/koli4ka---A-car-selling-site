@@ -12,13 +12,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.UUID;
 
 
 @Controller
@@ -43,11 +41,12 @@ public class CarController {
     }
 
 
+
     @PostMapping("/cars/search")
-    public ModelAndView searchCars(@AuthenticationPrincipal AuthenticationDetails details, SearchCarRequest searchCarRequest, BindingResult bindingResult) {
+    public ModelAndView searchCars(@AuthenticationPrincipal AuthenticationDetails details, SearchCarRequest searchCarRequest) {
         User user = userService.getById(details.getUserId());
         ModelAndView mav = new ModelAndView("offers");
-        List<Car> cars = carService.getCars(searchCarRequest);
+        List<Car> cars=carService.getCars(searchCarRequest);
         mav.addObject("cars", cars);
         mav.addObject("user", user);
         return mav;
@@ -66,20 +65,16 @@ public class CarController {
     }
 
     @PostMapping("/cars/new")
-    public ModelAndView addCar(@Valid CreateCarRequest createCarRequest, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationDetails details) {
-
-        if (bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:/cars/new");
-        }
+    public ModelAndView addCar(@Valid CreateCarRequest createCarRequest, BindingResult bindingResult,@AuthenticationPrincipal AuthenticationDetails details) {
         User user = userService.getById(details.getUserId());
-        carService.addCar(createCarRequest, user);
-        ModelAndView mav = new ModelAndView("redirect:/cars/search");
-        return mav;
+        if (bindingResult.hasErrors()) {
+           return new ModelAndView("redirect:/cars/new");
+        }
+        carService.addCar(createCarRequest,user);
+        return new ModelAndView("redirect:/cars/search");
     }
 
 
-    }
 
 
 }
-
