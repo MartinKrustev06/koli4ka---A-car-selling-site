@@ -165,7 +165,7 @@
 
 <div class="ads-container">
 
-    <a href="#" class="car-ad" th:each="car:${cars}">
+    <a th:href="@{/cars/{id}(id=${car.id})}" class="car-ad" th:each="car:${cars}">
         <img th:src="${car.imageUrl}" alt="Car">
         <h2 th:text="${car.brand + ' ' + car.model}">Mercedes-Benz C200</h2>
         <div class="details">
