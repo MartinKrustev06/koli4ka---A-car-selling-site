@@ -13,10 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller
@@ -72,6 +74,24 @@ public class CarController {
         }
         carService.addCar(createCarRequest,user);
         return new ModelAndView("redirect:/cars/search");
+    }
+
+
+
+    @GetMapping("/cars/{id}")
+    public ModelAndView getCar(@PathVariable UUID id,@AuthenticationPrincipal AuthenticationDetails details) {
+
+        Car car = carService.getCar(id);
+        User user = userService.getById(details.getUserId());
+        ModelAndView mav = new ModelAndView("car");
+        mav.addObject("car", car);
+        mav.addObject("user", user);
+
+
+
+        return mav;
+
+
     }
 
 
