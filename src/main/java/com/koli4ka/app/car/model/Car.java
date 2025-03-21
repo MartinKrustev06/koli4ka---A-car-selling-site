@@ -1,6 +1,7 @@
 package com.koli4ka.app.car.model;
 
 
+import com.koli4ka.app.user.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -55,6 +56,9 @@ public class Car {
 
     @Column(nullable = false)
     private int mileage;
+
+    @ManyToOne
+    private User publisher;
 
 
 

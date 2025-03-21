@@ -2,6 +2,7 @@ package com.koli4ka.app.car.service;
 
 import com.koli4ka.app.car.model.Car;
 import com.koli4ka.app.car.repository.CarRepository;
+import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.web.dtos.CreateCarRequest;
 import com.koli4ka.app.web.dtos.SearchCarRequest;
 import jakarta.persistence.EntityManager;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CarService {
@@ -75,7 +78,7 @@ public class CarService {
         return searchCars(searchCarRequest);
     }
 
-    public void addCar(CreateCarRequest createCarRequest) {
+    public void addCar(CreateCarRequest createCarRequest, User user) {
         Car car = Car.builder()
                 .brand(createCarRequest.getBrand())
                 .model(createCarRequest.getModel())
@@ -88,7 +91,20 @@ public class CarService {
                 .mileage(createCarRequest.getMileage())
                 .location(createCarRequest.getLocation())
                 .description(createCarRequest.getDescription())
+                .publisher(user)
                 .build();
         carRepository.save(car);
+    }
+
+    public Car getCar(UUID id) {
+
+        Optional<Car> byId = carRepository.findById(id);
+
+        if (byId.isPresent()) {
+            return byId.get();
+        }
+        return null;
+
+
     }
 }

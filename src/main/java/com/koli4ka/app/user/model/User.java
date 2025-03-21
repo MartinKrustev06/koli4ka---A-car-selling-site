@@ -1,5 +1,6 @@
 package com.koli4ka.app.user.model;
 
+import com.koli4ka.app.car.model.Car;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -38,5 +40,7 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @OneToMany(mappedBy = "publisher")
+    private List<Car> cars;
 
 }

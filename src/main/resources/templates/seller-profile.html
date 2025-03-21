@@ -1,9 +1,9 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>коли4ка - Обяви за коли</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профил</title>
     <style>
         * {
             margin: 0;
@@ -23,8 +23,6 @@
         header {
             background-color: #6D28D9;
             color: white;
-
-
         }
 
         .header-container {
@@ -45,36 +43,64 @@
             font-size: 48px;
             font-weight: bold;
         }
-        .profile{
+
+        .profile-section {
             display: flex;
-            text-align: center;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
-
+            padding: 50px 25px;
         }
-        .profile-picture{
-            width: 75px;
-            height: 75px;
+
+        .profile-container {
+            max-width: 450px;
+            width: 100%;
+            background-color: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-
-
+            border: 5px solid #6D28D9;
+            object-fit: cover;
         }
-        .profile p{
+
+        .username {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 18px 0;
+        }
+
+        .profile-button {
+            display: block;
+            background-color: #6D28D9;
+            color: white;
+            padding: 14px 22px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
             font-size: 18px;
-            font-weight: bolder;
-        }
-        a{
+            width: 100%;
+            margin: 12px 0;
+            text-align: center;
             text-decoration: none;
-            color: inherit;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
+        .profile-button:hover {
+            background-color: #5a21b5;
+            transform: scale(1.06);
+        }
         .ads-container {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            overflow-y: auto;
         }
 
         .car-ad {
@@ -111,7 +137,6 @@
             margin-top: 25px;
             color: #6D28D9;
             text-align: center;
-
         }
 
         .car-ad .details {
@@ -120,7 +145,6 @@
             gap: 10px;
             width: 100%;
             max-width: 530px;
-
         }
 
         .car-ad .details p {
@@ -144,7 +168,8 @@
 
         a {
             display: block;
-            text-decoration: none; /* Премахва подчертаването */
+            text-decoration: none;
+            color: inherit;
         }
     </style>
 </head>
@@ -154,18 +179,26 @@
     <div class="header-container">
         <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
         <a href="/"><h1 class="header-title">коли4ка</h1></a>
-        <a th:href="@{/users/{id}(id=${user.id})}" >
+        <a th:href="@{/users/{id}(id=${user.id})}">
             <div class="profile">
-                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
-                <p th:text="${user.firstName}" >ivan</p>
+                <img class="profile-picture" th:src="${user.imageUrl}" alt="snimka">
+                <p th:text="${user.firstName}"></p>
             </div>
         </a>
     </div>
 </header>
 
-<div class="ads-container">
+<section class="profile-section">
+    <div class="profile-container">
+        <img th:src="${seller.imageUrl}" alt="Профилна снимка" class="profile-picture">
+        <div class="username" th:text="${seller.username}"></div>
 
-    <a th:href="@{/cars/{id}(id=${car.id})}" class="car-ad" th:each="car:${cars}">
+        <a th:href="@{/messages/{id}(id=${seller.id})}" class="profile-button">Изпрати съобщение</a>
+    </div>
+</section>
+
+<div class="ads-container">
+    <a th:href="@{/cars/{id}(id=${car.id})}" class="car-ad" th:each="car : ${seller.cars}">
         <img th:src="${car.imageUrl}" alt="Car">
         <h2 th:text="${car.brand + ' ' + car.model}">Mercedes-Benz C200</h2>
         <div class="details">
@@ -177,8 +210,6 @@
             <p class="price" th:text="'Цена: ' + ${car.price} + ' лв.'"></p>
         </div>
     </a>
-
-
 </div>
 
 </body>
