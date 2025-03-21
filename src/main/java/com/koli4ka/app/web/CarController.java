@@ -77,17 +77,6 @@ public class CarController {
         return mav;
     }
 
-    @GetMapping("/cars/{id}")
-    public ModelAndView getCar(@PathVariable UUID id,@AuthenticationPrincipal AuthenticationDetails details) {
-
-        Car car = carService.getCar(id);
-        User user = userService.getById(details.getUserId());
-        ModelAndView mav = new ModelAndView("car");
-        mav.addObject("car", car);
-        mav.addObject("user", user);
-
-        return mav;
-
 
     }
 

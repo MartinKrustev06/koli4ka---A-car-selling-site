@@ -15,7 +15,7 @@
             height: auto;
             min-height: 100%;
             font-family: Arial, sans-serif;
-            background-color: #EDE7F6;
+            background-color: #EDE7F6; /* Върнах оригиналния фон */
             color: #6D28D9;
             display: flex;
             flex-direction: column;
@@ -23,54 +23,70 @@
             overflow-y: auto;
         }
 
+      /* Общи стилове за хедъра */
+header {
+    background-color: #6D28D9;
+    color: white;
+    padding: 20px 0;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
 
-        header {
-            background-color: #6D28D9;
-            color: white;
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: 1200px;
+    width: 100%;
+}
 
+.logo {
+    width: 120px;
+    transition: transform 0.3s ease;
+}
 
-        }
+.site-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+}
 
-        .header-container {
-            display: flex;
-            align-items: center;
-            max-width: 1600px;
-            margin: 0 auto;
-            justify-content: space-between;
-            height: 150px;
-        }
+.auth-buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+}
 
-        .header-logo {
-            width: 120px;
-            height: 120px;
-        }
+/* Стилизация на бутоните */
+.auth-button {
+    background-color: white;
+    color: #6D28D9;
+    border: 2px solid #6D28D9;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
 
-        .header-title {
-            font-size: 48px;
-            font-weight: bold;
-        }
-        .profile{
-            display: flex;
-            text-align: center;
-            align-items: center;
-            gap: 15px;
+.auth-button:hover {
+    background-color: #4C1D95;
+    color: white;
+    transform: translateY(-3px);
+}
 
-        }
-        .profile-picture{
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-
-
-        }
-        .profile p{
-            font-size: 18px;
-            font-weight: bolder;
-        }
-        a{
-            text-decoration: none;
-            color: inherit;
-        }
 
 
 
@@ -284,63 +300,61 @@
     </style>
 </head>
 <body>
-<header>
-    <div class="header-container">
-        <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
-        <a href="/"><h1 class="header-title">коли4ка</h1></a>
-        <a th:href="@{/users/{id}(id=${user.id})}" >
-            <div class="profile">
-                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
-                <p th:text="${user.firstName}" >ivan</p>
+    <header>
+        <div class="header-container">
+            <img src="../static/images/koli4ka-logo.png" alt="Лого" class="logo">
+            <h1 class="site-title">коли4ка</h1>
+            <div class="auth-buttons">
+                <button  class="auth-button login-button">Login</button>
+                <button class="auth-button register-button">Register</button>  
+                <button class="auth-button logout-button">Logout</button>
             </div>
-        </a>
-    </div>
-</header>
+        </div>
+    </header>
     
 
 <section class="car-details">
     <div class="car-images">
-        <img th:src="${car.imageUrl}" alt="Снимка на кола" class="active">
-<!--       -->
-<!--        <button class="arrow left" onclick="changeImage(-1)">&#10094;</button>-->
-<!--        <button class="arrow right" onclick="changeImage(1)">&#10095;</button>-->
+        <img src="../static/images/rs6-1.jpg" alt="Снимка на кола 1" class="active">
+        <img src="../static/images/rs6-2.webp" alt="Снимка на кола 2">
+        <img src="../static/images/rs6-3.webp" alt="Снимка на кола 3">
+        <button class="arrow left" onclick="changeImage(-1)">&#10094;</button>
+        <button class="arrow right" onclick="changeImage(1)">&#10095;</button>
     </div>
     <div class="car-info">
-        <h2 th:text="${#strings.capitalize(car.brand.toLowerCase()) + ' ' + car.model}"></h2>
-        <p th:text="${#numbers.formatInteger(car.price, 3, 'COMMA') + ' лв.'}" class="price">75,000 лв.</p>
-        <p class="location" th:text="${car.location}">София, България</p>
-        <a th:href="@{/users/seller/{id}(id=${car.publisher.id})}"><button>Профил на продавач</button></a>
+        <h2>AUDI RS6</h2>
+        <p class="price">75,000 лв.</p>
+        <p class="location">София, България</p>
     </div>
 </section>
 
-
+<!-- Допълнителна информация -->
 <section class="additional-info">
     <div class="info-row">
         <div class="label">Година:</div>
-        <div class="info-item" th:text="${car.year}"></div>
+        <div class="info-item">2021</div>
     </div>
     <div class="info-row">
         <div class="label">Конски сили:</div>
-        <div class="info-item" th:text="${car.power} + ' к.с.'"></div>
-
+        <div class="info-item">600 к.с.</div>
     </div>
     <div class="info-row">
         <div class="label">Трансмисия:</div>
-        <div class="info-item" th:text="${car.transmission}"></div>
+        <div class="info-item">Автоматична</div>
     </div>
     <div class="info-row">
         <div class="label">Вид гориво:</div>
-        <div class="info-item" th:text="${car.fuelType}"></div>
+        <div class="info-item">Бензин</div>
     </div>
     <div class="info-row">
         <div class="label">Пробег:</div>
-        <div class="info-item" th:text="${#numbers.formatInteger(car.mileage, 3, 'COMMA') + ' км'}"></div>
+        <div class="info-item">20,000 км</div>
     </div>
 </section>
 
-<section  th:if="${car.description != null}" class="additional-info-text">
+<section class="additional-info-text">
     <h3>Допълнителна информация:</h3>
-    <p  th:text="${car.description}"></p>
+    <p>Това е автомобилът, който комбинира мощност и стил. Със своите 600 конски сили, той предлага невероятно ускорение и изпълнение, като същевременно е оборудван с модерни технологии, които правят пътуванията още по-удобни и безопасни. Няма да откриете друг автомобил, който да предлага толкова качество за цената си. Върху всяка част на този автомобил са вложени иновации, които го правят уникален на пътя.</p>
 </section>
 
 <script>
