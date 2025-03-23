@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -26,6 +27,19 @@ public class IndexController {
     public IndexController(UserService userService) {
         this.userService = userService;
 
+    }
+    @GetMapping("/login")
+    public ModelAndView getLoginPage(@RequestParam(value = "error", required = false) String errorParam) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login");
+        modelAndView.addObject("loginRequest", new LoginRequest());
+
+        if (errorParam != null) {
+            modelAndView.addObject("errorMessage", "Incorrect username or password!");
+        }
+
+        return modelAndView;
     }
     @GetMapping("/")
     public ModelAndView index() {
@@ -53,13 +67,7 @@ public class IndexController {
         return mav;
     }
 
-    @GetMapping("/login")
-    public ModelAndView login() {
-        ModelAndView mav = new ModelAndView("login");
-        mav.addObject("loginRequest", new LoginRequest());
-        return mav;
 
-    }
 
 
 

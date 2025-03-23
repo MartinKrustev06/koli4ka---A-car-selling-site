@@ -29,7 +29,7 @@ public class WebMvcConfiguration {
 //                        .usernameParameter("username")
 //                        .passwordParameter("password")
                         .defaultSuccessUrl("/cars/search", true)
-                        .failureUrl("/login?error")
+                        .failureUrl("/login?error=true")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))

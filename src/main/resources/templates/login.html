@@ -155,12 +155,14 @@
             <form th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
                 <div class="form-group">
                     <label for="username">Потребителско име</label>
-                    <input type="text" id="username" placeholder="Въведете потребителско име" required th:field="*{username}">
+                    <input type="text" id="username" placeholder="Въведете потребителско име"  th:field="*{username}">
+                    <p class="alert-warning" th:if="${errorMessage}" th:text="${errorMessage}"></p>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Парола</label>
-                    <input type="password" id="password" placeholder="Въведете парола" required th:field="*{password}">
+                    <input type="password" id="password" placeholder="Въведете парола"  th:field="*{password}">
+
                 </div>
 
                 <button type="submit" class="login-button">Вход</button>

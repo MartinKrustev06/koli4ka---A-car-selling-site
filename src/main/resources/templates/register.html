@@ -134,43 +134,43 @@
 
             <div class="form-group">
                 <label for="username">Потребителско име</label>
-                <input type="text" id="username" placeholder="Изберете потребителско име" required th:field="*{username}">
+                <input type="text" id="username" placeholder="Изберете потребителско име"  th:field="*{username}">
                 <div class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
             </div>
 
             <div class="form-group">
                 <label for="password">Парола</label>
-                <input type="password" id="password" placeholder="Въведете парола" required th:field="*{password}">
+                <input type="password" id="password" placeholder="Въведете парола"  th:field="*{password}">
                 <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
 
             <div class="form-group">
                 <label for="email">Имейл</label>
-                <input type="email" id="email" placeholder="ex. kolio@abv.bg" required th:field="*{email}">
+                <input type="text" id="email" placeholder="ex. kolio@abv.bg"  th:field="*{email}">
                 <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
 
             <div class="form-group">
                 <label for="phone-number">Телефонен номер</label>
-                <input type="text" id="phone-number" placeholder="Въведете вашия телефонен номер" required th:field="*{phoneNumber}">
+                <input type="text" id="phone-number" placeholder="Въведете вашия телефонен номер"  th:field="*{phoneNumber}">
                 <div class="error-message" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
             </div>
 
             <div class="form-group">
                 <label for="first-name">Име</label>
-                <input type="text" id="first-name" placeholder="Въведете вашето име" required th:field="*{firstName}">
+                <input type="text" id="first-name" placeholder="Въведете вашето име"  th:field="*{firstName}">
                 <div class="error-message" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
             </div>
 
             <div class="form-group">
                 <label for="last-name">Фамилия</label>
-                <input type="text" id="last-name" placeholder="Въведете вашата фамилия" required th:field="*{lastName}">
+                <input type="text" id="last-name" placeholder="Въведете вашата фамилия"  th:field="*{lastName}">
                 <div class="error-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
             </div>
 
             <div class="form-group">
                 <label for="profile-picture">Снимка</label>
-                <input type="url" id="profile-picture" placeholder="Въведете валиден линк към снимка" required th:field="*{imageUrl}">
+                <input type="text" id="profile-picture" placeholder="Въведете валиден линк към снимка"  th:field="*{imageUrl}">
                 <div class="error-message" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
             </div>
 
