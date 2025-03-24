@@ -1,6 +1,7 @@
 package com.koli4ka.app.web;
 
 
+import com.koli4ka.app.security.AuthenticationDetails;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.user.service.UserService;
 import com.koli4ka.app.web.dtos.LoginRequest;
@@ -8,6 +9,7 @@ import com.koli4ka.app.web.dtos.RegisterRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +66,23 @@ public class IndexController {
         }
         userService.register(registerRequest);
         mav.setViewName("redirect:/login");
+        return mav;
+    }
+
+    @GetMapping("/info")
+    public ModelAndView getInfoPage(@AuthenticationPrincipal AuthenticationDetails details) {
+        ModelAndView mav = new ModelAndView("info");
+        User user= userService.getById(details.getUserId());
+        mav.addObject("user", user);
+        return mav;
+
+
+    }
+    @GetMapping("/info/career")
+    public ModelAndView getCareerPage(@AuthenticationPrincipal AuthenticationDetails details) {
+        ModelAndView mav = new ModelAndView("career");
+        User user = userService.getById(details.getUserId());
+        mav.addObject("user", user);
         return mav;
     }
 

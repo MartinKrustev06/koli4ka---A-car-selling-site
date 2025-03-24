@@ -40,15 +40,29 @@
             width: 120px;
             height: 120px;
         }
+        .profile{
+            display: flex;
+            text-align: center;
+            align-items: center;
+            gap: 15px;
 
-        .header-title {
-            font-size: 48px;
-            font-weight: bold;
         }
-        .extra{
-            width: 150px;
-            color: #6D28D9;
+        .profile-picture-header{
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+
+
         }
+        .profile p{
+            font-size: 18px;
+            font-weight: bolder;
+        }
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
+
 
 
 
@@ -58,6 +72,13 @@
             justify-content: center;
             align-items: center;
             padding: 50px 25px;
+        }
+        .profile-picture-header{
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+
+
         }
 
         .profile-container {
@@ -112,14 +133,41 @@
         .logout-button:hover {
             background-color: darkred;
         }
+        .nav {
+            display: flex;
+            gap: 10px;
+            font-weight: bolder;
+        }
+
+        .nav a {
+            padding-right: 10px; /* За да има малко пространство след чертичката */
+            border-right: 1px solid white; /* Чертичка между елементите */
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav a:last-child {
+            border-right: none;
+        }
+
     </style>
 </head>
 <body>
 <header>
     <div class="header-container">
-        <img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo">
-        <h1 class="header-title">коли4ка</h1>
-        <p class="extra">asd</p>
+        <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
+        <div class="nav">
+            <a th:href="@{/cars/search}">ТЪРСЕНЕ</a>
+            <a th:href="@{/cars/favorites}">ХАРЕСАНИ ОБЯВИ</a>
+            <a th:href="@{/info}">ИНФО</a>
+            <a th:href="@{/info/career}">КАРИЕРИЕРНО РАЗВИТИЕ</a>
+        </div>
+        <a th:href="@{/users/{id}(id=${user.id})}" >
+            <div class="profile">
+                <img class="profile-picture-header" th:src="${user.getImageUrl()}" alt="snimka">
+                <p th:text="${user.firstName}" >ivan</p>
+            </div>
+        </a>
     </div>
 </header>
 

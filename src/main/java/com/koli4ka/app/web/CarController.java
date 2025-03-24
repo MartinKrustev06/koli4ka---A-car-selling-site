@@ -56,8 +56,9 @@ public class CarController {
     }
 
     @GetMapping("/cars/new")
-    public ModelAndView getNewCarPage(@AuthenticationPrincipal User user) {
+    public ModelAndView getNewCarPage(@AuthenticationPrincipal AuthenticationDetails details) {
         ModelAndView mav = new ModelAndView("add-car");
+        User user = userService.getById(details.getUserId());
         mav.addObject("createCarRequest", new CreateCarRequest());
         mav.addObject("user", user);
 
