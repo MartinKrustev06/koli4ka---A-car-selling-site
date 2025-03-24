@@ -6,27 +6,131 @@
     <title>коли4ка - Добавяне на кола</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { height: 100%; font-family: Arial, sans-serif; background-color: #EDE7F6; color: #6D28D9; display: flex; flex-direction: column; }
-        header { background-color: #6D28D9; color: white; padding: 20px 0; flex-shrink: 0; }
-        .header-container { display: flex; align-items: center; position: relative; max-width: 1200px; margin: 0 auto; }
-        .logo { width: 120px; }
-        .site-title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 48px; font-weight: bold; }
-        .auth-buttons { margin-left: auto; display: flex; gap: 20px; }
-        .auth-button { background-color: white; color: #6D28D9; border: 2px solid #6D28D9; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s ease; }
-        .auth-button:hover { background-color: #4C1D95; color: white; transform: translateY(-3px); }
-        .car-form { width: 40%; margin: 20px auto; padding: 40px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; gap: 20px; }
-        .car-form label { font-weight: bold; }
-        .car-form input, .car-form select { width: 100%; padding: 15px 30px; border: 2px solid #6D28D9; border-radius: 10px; background-color: white; color: #6D28D9; }
-        .error-message { color: red; font-size: 14px; margin-top: -15px; }
-        .submit-button { background-color: #6D28D9; color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-size: 18px; font-weight: bold; transition: background 0.3s; }
-        .submit-button:hover { background-color: #5a21b5; }
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #6D28D9;
+            color: white;
+
+
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-content: space-between;
+            height: 150px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: 120px;
+        }
+        .profile{
+            display: flex;
+            text-align: center;
+            align-items: center;
+            gap: 15px;
+
+        }
+        .profile-picture{
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+
+
+        }
+        .profile p{
+            font-size: 18px;
+            font-weight: bolder;
+        }
+
+        .nav {
+            display: flex;
+            gap: 10px;
+            font-weight: bolder;
+        }
+
+        .nav a {
+            padding-right: 10px; /* За да има малко пространство след чертичката */
+            border-right: 1px solid white; /* Чертичка между елементите */
+        }
+
+        .nav a:last-child {
+            border-right: none; /* Премахваме чертичката след последния елемент */
+        }
+
+        .car-form {
+            width: 40%;
+            margin: 20px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .car-form label {
+            font-weight: bold;
+        }
+        .car-form input, .car-form select {
+            width: 100%;
+            padding: 15px 30px;
+            border: 2px solid #6D28D9;
+            border-radius: 10px;
+            background-color: white;
+            color: #6D28D9;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: -15px;
+        }
+        .submit-button {
+            background-color: #6D28D9;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .submit-button:hover {
+            background-color: #5a21b5;
+        }
+        a{
+            color: inherit;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 <header>
     <div class="header-container">
-        <img src="/images/koli4ka-logo.png" alt="Лого" class="logo">
-        <h1 class="site-title">коли4ка</h1>
+        <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
+        <div class="nav">
+            <a th:href="@{/cars/search}">ТЪРСЕНЕ</a>
+            <a th:href="@{/cars/favorites}">ХАРЕСАНИ ОБЯВИ</a>
+            <a th:href="@{/info}">ИНФО</a>
+            <a th:href="@{/info/career}">КАРИЕРИЕРНО РАЗВИТИЕ</a>
+        </div>
+        <a th:href="@{/users/{id}(id=${user.id})}" >
+            <div class="profile">
+                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
+                <p th:text="${user.firstName}" >ivan</p>
+            </div>
+        </a>
     </div>
 </header>
 

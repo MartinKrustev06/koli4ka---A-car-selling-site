@@ -146,6 +146,20 @@
             display: block;
             text-decoration: none; /* Премахва подчертаването */
         }
+        .nav {
+            display: flex;
+            gap: 10px;
+            font-weight: bolder;
+        }
+
+        .nav a {
+            padding-right: 10px; /* За да има малко пространство след чертичката */
+            border-right: 1px solid white; /* Чертичка между елементите */
+        }
+
+        .nav a:last-child {
+            border-right: none; /* Премахваме чертичката след последния елемент */
+        }
     </style>
 </head>
 <body>
@@ -153,7 +167,12 @@
 <header>
     <div class="header-container">
         <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
-        <a href="/"><h1 class="header-title">коли4ка</h1></a>
+        <div class="nav">
+            <a th:href="@{/cars/search}">ТЪРСЕНЕ</a>
+            <a th:href="@{/cars/favorites}">ХАРЕСАНИ ОБЯВИ</a>
+            <a th:href="@{/info}">ИНФО</a>
+            <a th:href="@{/info/career}">КАРИЕРИЕРНО РАЗВИТИЕ</a>
+        </div>
         <a th:href="@{/users/{id}(id=${user.id})}" >
             <div class="profile">
                 <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">

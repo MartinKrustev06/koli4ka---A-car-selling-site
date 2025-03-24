@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кариерно Развитие</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        header {
+            background-color: #6D28D9;
+            color: white;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-content: space-between;
+            height: 150px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: 120px;
+        }
+
+
+
+        .profile {
+            display: flex;
+            text-align: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-picture {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+        }
+
+        .profile p {
+            font-size: 18px;
+            font-weight: bolder;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav {
+            display: flex;
+            gap: 10px;
+            font-weight: bolder;
+        }
+
+        .nav a {
+            padding-right: 10px;
+            border-right: 1px solid white;
+        }
+
+        .nav a:last-child {
+            border-right: none;
+        }
+
+        .info-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+            color: #6D28D9;
+        }
+
+        .info-text {
+            width: 100%;
+        }
+
+        .info-text h2, .info-text h3 {
+            color: #4A148C;
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .info-text p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .position-list {
+            list-style-type: none;
+            margin-left: 0;
+            padding-left: 20px;
+            margin-bottom: 30px;
+        }
+
+        .position-list li {
+            background: #EDE7F6;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #6D28D9;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .position-list li:hover {
+            background: #6D28D9;
+            color: white;
+            cursor: pointer;
+            transform: translateX(5px);
+        }
+
+        .position-list strong {
+            font-size: 20px;
+            color: #4A148C;
+        }
+
+        .position-list li p {
+            font-size: 16px;
+            color: #4A148C;
+        }
+
+        .contact-info {
+            background-color: #6D28D9;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .contact-info p {
+            font-size: 18px;
+        }
+
+        .contact-info strong {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
+        <div class="nav">
+            <a th:href="@{/cars/search}">ТЪРСЕНЕ</a>
+            <a th:href="@{/cars/favorites}">ХАРЕСАНИ ОБЯВИ</a>
+            <a th:href="@{/info}">ИНФО</a>
+            <a th:href="@{/info/career}">КАРИЕРИЕРНО РАЗВИТИЕ</a>
+        </div>
+        <a th:href="@{/users/{id}(id=${user.id})}" >
+            <div class="profile">
+                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
+                <p th:text="${user.firstName}" >ivan</p>
+            </div>
+        </a>
+    </div>
+</header>
+
+<main>
+    <section class="info-container">
+        <div class="info-text">
+            <h2>Кариерно развитие</h2>
+            <p>В коли4ка вярваме, че успехът на нашата компания зависи от хората, които я съставят. Ние се стремим да предоставим отлични възможности за професионално развитие и кариерен напредък.</p>
+            <p>Предлагаме различни позиции, които могат да бъдат интересни за вас:</p>
+
+            <ul class="position-list">
+                <li>
+                    <strong>Специалист продажби</strong>
+                    <p>Отговорности: обслужване на клиенти, изготвяне на оферти, сключване на сделки.</p>
+                </li>
+                <li>
+                    <strong>Маркетинг специалист</strong>
+                    <p>Отговорности: създаване на рекламни кампании, анализ на пазара, работа с медии.</p>
+                </li>
+                <li>
+                    <strong>Консултант обслужване на клиенти</strong>
+                    <p>Отговорности: предоставяне на информация за продуктите, помощ при технически въпроси.</p>
+                </li>
+                <li>
+                    <strong>IT специалист</strong>
+                    <p>Отговорности: разработка на софтуерни решения, поддръжка на уебсайта, оптимизация на системите.</p>
+                </li>
+            </ul>
+
+            <h3>Как да се присъедините към нас?</h3>
+            <p>Ако сте ентусиазиран и амбициозен човек, който търси нови предизвикателства и възможности, изпратете своето CV и мотивационно писмо на нашия имейл:</p>
+            <p><strong>Имейл:</strong> <a href="mailto:careers@koli4ka.bg">careers@koli4ka.bg</a></p>
+        </div>
+        <div class="contact-info">
+            <h3>Контакти</h3>
+            <p>Не се колебайте да се свържете с нас, ако имате въпроси относно позициите или компанията ни.</p>
+            <p><strong>Имейл:</strong> <a href="mailto:careers@koli4ka.bg">careers@koli4ka.bg</a></p>
+            <p><strong>Телефон:</strong> +359 888 123 456</p>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

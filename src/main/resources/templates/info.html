@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>коли4ка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #6D28D9;
+            color: white;
+
+
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-content: space-between;
+            height: 150px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: 120px;
+        }
+
+        .header-title {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .profile{
+            display: flex;
+            text-align: center;
+            align-items: center;
+            gap: 15px;
+
+        }
+        .profile-picture{
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+
+
+        }
+        .profile p{
+            font-size: 18px;
+            font-weight: bolder;
+        }
+
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        .nav {
+            display: flex;
+            gap: 10px;
+            font-weight: bolder;
+        }
+
+        .nav a {
+            padding-right: 10px; /* За да има малко пространство след чертичката */
+            border-right: 1px solid white; /* Чертичка между елементите */
+        }
+
+        .nav a:last-child {
+            border-right: none; /* Премахваме чертичката след последния елемент */
+        }
+
+        .info-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+            color: #6D28D9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .info-text {
+            width: 55%;
+        }
+
+        .info-text h2, .info-text h3 {
+            color: #4A148C;
+            margin-bottom: 15px;
+        }
+
+        .info-text p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .map-container {
+            width: 45%;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: 5px solid #6D28D9;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
+        <div class="nav">
+            <a th:href="@{/cars/search}">ТЪРСЕНЕ</a>
+            <a th:href="@{/cars/favorites}">ХАРЕСАНИ ОБЯВИ</a>
+            <a th:href="@{/info}">ИНФО</a>
+            <a th:href="@{/info/career}">КАРИЕРИЕРНО РАЗВИТИЕ</a>
+        </div>
+        <a th:href="@{/users/{id}(id=${user.id})}" >
+            <div class="profile">
+                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
+                <p th:text="${user.firstName}" >ivan</p>
+            </div>
+        </a>
+    </div>
+</header>
+
+<main>
+    <section class="info-container">
+        <div class="info-text">
+            <h2>За нас</h2>
+            <p>Добре дошли в коли4ка – вашият надежден партньор в покупката и продажбата на автомобили.</p>
+            <p>Нашата цел е да предоставим лесен и удобен начин за намиране на вашия следващ автомобил.</p>
+            <p>Разполагаме с широка гама от превозни средства, които отговарят на различни нужди и бюджети.</p>
+
+            <h3>Контакти</h3>
+            <p><strong>Адрес:</strong> ул. Ропотамо 58, Созопол, България</p>
+            <p><strong>Телефон:</strong> +359 888 123 456</p>
+            <p><strong>Имейл:</strong> info@koli4ka.bg</p>
+            <p><strong>Работно време:</strong> Пон - Пет: 09:00 - 18:00, Съб: 10:00 - 14:00</p>
+        </div>
+
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5891.155868595274!2d27.691402540938316!3d42.41543179762333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a6c7f5573ae503%3A0xf46ad844a446db20!2s8130%20Sozopol!5e0!3m2!1sen!2sbg!4v1742835777018!5m2!1sen!2sbg" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
