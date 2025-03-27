@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            overflow-y: auto;
+        }
+
+        .message {
+            padding: 10px 15px;
+            margin: 10px;
+            border-radius: 10px;
+            max-width: 60%;
+            word-wrap: break-word;
+        }
+
+        .message-left {
+            background-color: #D1C4E9;
+            align-self: flex-start;
+        }
+
+        .message-right {
+            background-color: #B39DDB;
+            align-self: flex-end;
+        }
+
+        .chat-input {
+            display: flex;
+            margin: 20px auto;
+            max-width: 800px;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #6D28D9;
+            border-radius: 5px;
+        }
+
+        .chat-input button {
+            background-color: #6D28D9;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{common/header.html}"></div>
+
+<main>
+    <div class="chat-container">
+        <div th:each="message : ${chatMessages}" class="message"
+             th:classappend="${message.senderId == user.id ? ' message-right' : ' message-left'}">
+            <span th:text="${message.message}"></span>
+        </div>
+    </div>
+
+    <!-- ФОРМА за изпращане на съобщение -->
+    <form th:action="@{/chat/send-message}" method="post" class="chat-input" th:object="${newMessageRequest}">
+        <input type="hidden" th:field="*{senderId}" />
+        <input type="hidden" th:field="*{receiverId}" />
+        <input type="text" th:field="*{message}" placeholder="Напишете съобщение..." required />
+        <button type="submit">Изпрати</button>
+    </form>
+
+
+</main>
+
+</body>
+</html>

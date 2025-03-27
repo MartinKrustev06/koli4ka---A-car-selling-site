@@ -158,23 +158,7 @@
     </style>
 </head>
 <body>
-<header>
-    <div class="header-container">
-        <a href="/"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
-        <div class="nav">
-            <a th:href="@{/cars/search}">ТЪРСЕНЕ</a>
-            <a th:href="@{/cars/favorites}">ХАРЕСАНИ ОБЯВИ</a>
-            <a th:href="@{/info}">ИНФО</a>
-            <a th:href="@{/info/career}">КАРИЕРИЕРНО РАЗВИТИЕ</a>
-        </div>
-        <a th:href="@{/users/{id}(id=${user.id})}" >
-            <div class="profile">
-                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
-                <p th:text="${user.firstName}" >ivan</p>
-            </div>
-        </a>
-    </div>
-</header>
+<div th:replace="~{common/header.html}"></div>
 
 <main>
     <section class="info-container">

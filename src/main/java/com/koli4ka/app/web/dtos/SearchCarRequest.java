@@ -22,7 +22,13 @@ public class SearchCarRequest {
     private double maxPrice;
 
 
-    public boolean areFieldsEmpty(){
-        return brand == null || model == null || fromYear == null || toYear == null || fuelType == null || transmission == null;
+    public boolean hasAnyFieldFilled() {
+        return isNotEmpty(brand) || isNotEmpty(model) || isNotEmpty(fromYear) ||
+                isNotEmpty(toYear) || isNotEmpty(fuelType) || transmission != null;
     }
+
+    private boolean isNotEmpty(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
 }

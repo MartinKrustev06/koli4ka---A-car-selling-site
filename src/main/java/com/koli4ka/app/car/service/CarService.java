@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CarService {
@@ -71,12 +72,20 @@ public class CarService {
     }
 
 
-    public List<Car> getCars(SearchCarRequest searchCarRequest) {
-        if (searchCarRequest.areFieldsEmpty()){
-            return carRepository.findAll();
+    public List<Car> getCars(SearchCarRequest searchCarRequest, UUID userId) {
+        if (!searchCarRequest.hasAnyFieldFilled()) { // Ако няма попълнени полета
+            return carRepository.findAll()
+                    .stream()
+                    .filter(car -> !car.getPublisher().getId().equals(userId)) // Филтрираме колите
+                    .collect(Collectors.toList());
         }
-        return searchCars(searchCarRequest);
+        return searchCars(searchCarRequest)
+                .stream()
+                .filter(car -> !car.getPublisher().getId().equals(userId)) // Филтрираме и резултатите от търсенето
+                .collect(Collectors.toList());
     }
+
+
 
     public void addCar(CreateCarRequest createCarRequest, User user) {
         Car car = Car.builder()
