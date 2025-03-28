@@ -6,7 +6,10 @@ import com.koli4ka.app.security.AuthenticationDetails;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.user.service.UserService;
 import com.koli4ka.app.web.dtos.NewMessageRequest;
+import org.springframework.boot.Banner;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/chat")
+@RequestMapping
 public class MessageController {
 
     private final MessageService messageService;
@@ -26,7 +29,7 @@ public class MessageController {
     }
 
     // Метод за вземане на съобщения
-    @GetMapping("/getMessages/{senderId}/{receiverId}")
+    @GetMapping("/chat/getMessages/{senderId}/{receiverId}")
     public ModelAndView getMessages(@PathVariable UUID senderId, @PathVariable UUID receiverId) {
         System.out.println("Sender ID: " + senderId);
         System.out.println("Receiver ID: " + receiverId);
@@ -48,7 +51,7 @@ public class MessageController {
         return modelAndView;
     }
 
-    @PostMapping("/send-message")
+    @PostMapping("/chat/send-message")
     public String sendMessage(@ModelAttribute NewMessageRequest newMessageRequest) {
         // Изпращаме съобщението чрез MessageService
         messageService.saveMessage(newMessageRequest);
@@ -56,4 +59,19 @@ public class MessageController {
         // Пренасочваме към чата
         return "redirect:/chat/getMessages/" + newMessageRequest.getSenderId() + "/" + newMessageRequest.getReceiverId();
     }
+    @GetMapping("/chats")
+    public ModelAndView getChats(@AuthenticationPrincipal AuthenticationDetails details) {
+        UUID senderId= details.getUserId();
+        User user=userService.getById(details.getUserId());
+
+       List<UUID> uuids= messageService.getMessagesWithUser(senderId);
+       List<User> users=userService.getChatInfo(uuids);
+        ModelAndView mav= new ModelAndView("chats");
+        mav.addObject("user", user);
+        mav.addObject("chatsUsers", users);
+
+        return mav;
+
+    }
+
 }

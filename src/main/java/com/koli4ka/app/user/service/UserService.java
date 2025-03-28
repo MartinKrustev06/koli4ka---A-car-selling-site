@@ -4,12 +4,9 @@ import com.koli4ka.app.security.AuthenticationDetails;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.user.model.UserRole;
 import com.koli4ka.app.user.repository.UserRepository;
-import com.koli4ka.app.web.dtos.LoginRequest;
 import com.koli4ka.app.web.dtos.RegisterRequest;
 
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -76,5 +75,14 @@ public class UserService implements UserDetailsService {
 
     public User getById(UUID id) {
         return userRepository.getUserById(id);
+    }
+
+    public List<User> getChatInfo(List<UUID> uuids) {
+        List<User> users=new ArrayList<>();
+        uuids.forEach(uuid->{
+            User user=userRepository.getUserById(uuid);
+            users.add(user);
+        });
+        return users;
     }
 }

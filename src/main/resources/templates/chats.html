@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Всички чатове</title>
+    <title>Чатове</title>
     <style>
         * {
             margin: 0;
@@ -12,90 +12,65 @@
         }
 
         body, html {
+            height: 100%;
             font-family: Arial, sans-serif;
             background-color: #EDE7F6;
             color: #6D28D9;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            justify-content: center;
         }
 
-        .chat-list {
-            max-width: 800px;
-            width: 100%;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+        .chat-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            position: absolute;
+            bottom: 10%;
+            width: 80%;
         }
 
-        .chat-item {
+        .user-card {
             display: flex;
             align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #DDD;
-            cursor: pointer;
-            transition: background 0.3s;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s;
+            width: 250px;
+            height: 100px;
+            text-decoration: none;
+            color: inherit;
         }
 
-        .chat-item:hover {
-            background: #F3E5F5;
+        .user-card:hover {
+            transform: scale(1.02);
         }
 
-        .chat-item img {
+        .user-image {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            margin-right: 15px;
+            margin-right: 10px;
         }
 
-        .chat-item .chat-info {
-            flex-grow: 1;
-        }
-
-        .chat-item .chat-info h4 {
-            margin: 0;
+        .user-info {
             font-size: 16px;
-            color: #4A148C;
-        }
-
-        .chat-item .chat-info p {
-            margin: 5px 0 0;
-            font-size: 14px;
-            color: #7E57C2;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-
 <div th:replace="~{common/header.html}"></div>
 
-<div class="chat-list">
-    <div class="chat-item" onclick="window.location.href='/chat/getMessages/user1/user2'">
-        <img src="https://via.placeholder.com/50" alt="User Avatar"> 
-        <div class="chat-info">
-            <h4>Иван Петров</h4>
-            <p>Последно съобщение...</p>
-        </div>
-    </div>
-
-    <div class="chat-item" onclick="window.location.href='/chat/getMessages/user3/user4'">
-        <img src="https://via.placeholder.com/50" alt="User Avatar">
-        <div class="chat-info">
-            <h4>Мария Иванова</h4>
-            <p>Здравей, как си?</p>
-        </div>
-    </div>
-
-    <div class="chat-item" onclick="window.location.href='/chat/getMessages/user5/user6'">
-        <img src="https://via.placeholder.com/50" alt="User Avatar">
-        <div class="chat-info">
-            <h4>Георги Димитров</h4>
-            <p>Ок, ще се видим по-късно.</p>
-        </div>
-    </div>
-</div>
-
+<main class="chat-container">
+    <a th:each="chatUser : ${chatsUsers}" th:href="@{'/chat/getMessages/' + ${user.id} + '/' + ${chatUser.id}}" class="user-card">
+        <img th:src="${chatUser.imageUrl}" alt="Профилна снимка" class="user-image">
+        <span class="user-info" th:text="${chatUser.nickname}"></span>
+    </a>
+</main>
 </body>
 </html>

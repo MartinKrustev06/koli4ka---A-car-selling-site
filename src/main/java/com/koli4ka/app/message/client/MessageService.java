@@ -31,4 +31,16 @@ public class MessageService {
     public List<MessageResponse> getChat(UUID senderId, UUID receiverId) {
         return messageClient.getChat(senderId, receiverId);  // Извиква FeignClient
     }
+
+
+    public List<UUID> getMessagesWithUser(UUID senderId) {
+
+        List<UUID> uuids = messageClient.getChats(senderId);
+        uuids.remove(senderId);
+        System.out.println(uuids);
+        return null;
+
+
+
+    }
 }

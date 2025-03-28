@@ -19,4 +19,7 @@ public interface MessageClient {
 
     @GetMapping("/api/v1/messages/{senderId}/{receiverId}")
     List<MessageResponse> getChat(@PathVariable("senderId") UUID senderId, @PathVariable("receiverId") UUID receiverId);
+
+    @GetMapping("/api/v1/messages/getChats/{senderId}")
+    List<UUID> getChats(@PathVariable("senderId") UUID senderId);
 }
