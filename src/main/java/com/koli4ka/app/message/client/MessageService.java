@@ -38,7 +38,7 @@ public class MessageService {
         List<UUID> uuids = messageClient.getChats(senderId);
         uuids.remove(senderId);
         System.out.println(uuids);
-        return null;
+        return uuids;
 
 
 
