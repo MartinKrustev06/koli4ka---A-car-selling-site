@@ -68,7 +68,7 @@ public class MessageController {
        List<User> users=userService.getChatInfo(uuids);
         ModelAndView mav= new ModelAndView("chats");
         mav.addObject("user", user);
-        mav.addObject("chatsUsers", users);
+        mav.addObject("users", users);
 
         return mav;
 

@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
-    Optional<User> findByUsername(@NotNull(message = "Username must not be null!") @Size(min = 5, max = 25, message = "Username must be between 5 and 25 characters!") String username);
+    Optional<User> findByUsername(String username);
 
     User getUserById(UUID id);
 }

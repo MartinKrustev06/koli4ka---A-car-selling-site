@@ -9,8 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
-@Getter
-@Setter
+
 @Data
 public class RegisterRequest {
 
@@ -38,6 +37,7 @@ public class RegisterRequest {
 
     @URL(message = "Should be a valid url")
     private String imageUrl;
+
 
 
 }

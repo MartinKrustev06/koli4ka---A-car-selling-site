@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
        if(optionalUser.isPresent()) {
            return optionalUser.get();
        }
-       throw new RuntimeException("Username not found");
+       throw new UsernameNotFoundException("Username not found");
     }
 
     @Override
@@ -81,7 +81,9 @@ public class UserService implements UserDetailsService {
         List<User> users=new ArrayList<>();
         uuids.forEach(uuid->{
             User user=userRepository.getUserById(uuid);
-            users.add(user);
+            if(user!=null) {
+                users.add(user);            }
+
         });
         return users;
     }
