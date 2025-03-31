@@ -1,5 +1,8 @@
 package com.koli4ka.app.user.service;
 
+import com.koli4ka.app.exeption.EmailAlreadyExists;
+import com.koli4ka.app.exeption.PhoneNumberAlreadyExists;
+import com.koli4ka.app.exeption.UserNameAlreadyExists;
 import com.koli4ka.app.security.AuthenticationDetails;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.user.model.UserRole;
@@ -34,11 +37,21 @@ public class UserService implements UserDetailsService {
 
     public void register(RegisterRequest registerRequest) {
 
-        Optional<User> optionalUser=userRepository.findByUsername(registerRequest.getUsername());
+        Optional<User> userRepositoryByUsername=userRepository.findByUsername(registerRequest.getUsername());
+        Optional<User>userRepositoryByEmail =userRepository.getByEmail(registerRequest.getEmail());
+        Optional<User>userRepositoryByPhoneNumber=userRepository.getByPhone(registerRequest.getPhoneNumber());
 
-        if(optionalUser.isPresent()) {
-            throw new RuntimeException("Username already exists");
+
+
+        if(userRepositoryByUsername.isPresent()) {
+            throw new UserNameAlreadyExists("Username already exists");
+        } if(userRepositoryByEmail.isPresent()) {
+            throw new EmailAlreadyExists("Email already exists");
+        } if(userRepositoryByPhoneNumber.isPresent()) {
+            throw new PhoneNumberAlreadyExists("Phone number already exists");
         }
+
+
 
         User user = User.builder()
                 .username(registerRequest.getUsername())

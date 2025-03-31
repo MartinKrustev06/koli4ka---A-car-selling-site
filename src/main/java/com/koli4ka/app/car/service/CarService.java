@@ -2,6 +2,8 @@ package com.koli4ka.app.car.service;
 
 import com.koli4ka.app.car.model.Car;
 import com.koli4ka.app.car.repository.CarRepository;
+import com.koli4ka.app.exeption.EmailAlreadyExists;
+import com.koli4ka.app.exeption.NoCarsFoundExeption;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.web.dtos.CreateCarRequest;
 import com.koli4ka.app.web.dtos.SearchCarRequest;
@@ -61,7 +63,7 @@ public class CarService {
         if (request.getTransmission() != null) {
             predicates.add(cb.equal(car.get("transmission"), request.getTransmission()));
         }
-        if (request.getMaxPrice() != 0) {
+        if (request.getMaxPrice() > 0) {
             predicates.add(cb.lessThanOrEqualTo(car.get("price"), request.getMaxPrice()));
         }
 
@@ -73,16 +75,30 @@ public class CarService {
 
 
     public List<Car> getCars(SearchCarRequest searchCarRequest, UUID userId) {
-        if (!searchCarRequest.hasAnyFieldFilled()) { // Ако няма попълнени полета
-            return carRepository.findAll()
+        List<Car> cars;
+
+        if (!searchCarRequest.hasAnyFieldFilled()) {
+            cars = carRepository.findAll()
                     .stream()
-                    .filter(car -> !car.getPublisher().getId().equals(userId)) // Филтрираме колите
+                    .filter(car -> !car.getPublisher().getId().equals(userId))
                     .collect(Collectors.toList());
+            if (cars.isEmpty()) {
+                throw new NoCarsFoundExeption("Няма намерени коли по зададените критерии.");
+            }
+        } else {
+            cars = searchCars(searchCarRequest)
+                    .stream()
+                    .filter(car -> !car.getPublisher().getId().equals(userId))
+                    .collect(Collectors.toList());
+            if (cars.isEmpty()) {
+                throw new NoCarsFoundExeption("Няма намерени коли по зададените критерии.");
+            }
         }
-        return searchCars(searchCarRequest)
-                .stream()
-                .filter(car -> !car.getPublisher().getId().equals(userId)) // Филтрираме и резултатите от търсенето
-                .collect(Collectors.toList());
+
+
+
+
+        return cars;
     }
 
 
@@ -102,7 +118,7 @@ public class CarService {
                 .description(createCarRequest.getDescription())
                 .publisher(user)
                 .build();
-        carRepository.save(car);
+                carRepository.save(car);
     }
 
     public Car getCar(UUID id) {
@@ -112,8 +128,6 @@ public class CarService {
         if (byId.isPresent()) {
             return byId.get();
         }
-        return null;
-
-
+        throw new RuntimeException("");
     }
 }

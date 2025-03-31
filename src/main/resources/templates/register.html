@@ -136,6 +136,7 @@
                 <label for="username">Потребителско име</label>
                 <input type="text" id="username" placeholder="Изберете потребителско име"  th:field="*{username}">
                 <div class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                <p class="alert-warning" th:text="${usernameAlreadyExistMessage}"></p>
             </div>
 
             <div class="form-group">
@@ -148,12 +149,14 @@
                 <label for="email">Имейл</label>
                 <input type="text" id="email" placeholder="ex. kolio@abv.bg"  th:field="*{email}">
                 <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                <p class="alert-warning" th:text="${emailAlreadyExistMessage}"></p>
             </div>
 
             <div class="form-group">
                 <label for="phone-number">Телефонен номер</label>
                 <input type="text" id="phone-number" placeholder="Въведете вашия телефонен номер"  th:field="*{phoneNumber}">
                 <div class="error-message" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+                <p class="error-message" th:text="${phoneAlreadyExistMessage}"></p>
             </div>
 
             <div class="form-group">

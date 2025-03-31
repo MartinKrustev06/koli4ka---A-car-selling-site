@@ -3,9 +3,15 @@ package com.koli4ka.app.web.dtos;
 import com.koli4ka.app.car.model.FuelType;
 import com.koli4ka.app.car.model.TransmissionType;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateCarRequest {
 
     @NotNull(message = "Моля попълнете полето.")

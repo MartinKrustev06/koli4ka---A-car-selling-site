@@ -75,6 +75,7 @@ public class CarController {
         }
         carService.addCar(createCarRequest,user);
         return new ModelAndView("redirect:/cars/search");
+
     }
 
 

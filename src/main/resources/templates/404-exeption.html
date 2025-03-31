@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Грешка 404 - Страница не е намерена</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #D9534F;
+            font-size: 80px;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        p {
+            font-size: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #6D28D9;
+            color: white;
+            transition: background 0.2s;
+            display: block;
+            width: 200px;
+            margin: 40px auto 0;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #5a1ca3;
+        }
+
+        /* Премахнат padding и margin на body за да няма отстъпи */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Грешка 404</h1>
+<p>Страницата, която търсите, не беше намерена.</p>
+<a th:href="@{/cars/search}" class="button">Върнете се на началната страница</a>
+</body>
+</html>

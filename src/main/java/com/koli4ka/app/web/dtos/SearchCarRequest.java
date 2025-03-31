@@ -24,7 +24,7 @@ public class SearchCarRequest {
 
     public boolean hasAnyFieldFilled() {
         return isNotEmpty(brand) || isNotEmpty(model) || isNotEmpty(fromYear) ||
-                isNotEmpty(toYear) || isNotEmpty(fuelType) || transmission != null;
+                isNotEmpty(toYear) || isNotEmpty(fuelType) || transmission != null|| maxPrice > 0 ;
     }
 
     private boolean isNotEmpty(String value) {
