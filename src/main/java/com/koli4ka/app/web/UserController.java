@@ -3,13 +3,16 @@ package com.koli4ka.app.web;
 import com.koli4ka.app.security.AuthenticationDetails;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.user.service.UserService;
+import com.koli4ka.app.web.dtos.UserRoleSwitch;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -40,6 +43,22 @@ public class UserController {
         mav.setViewName("seller-profile");
         return mav;
 
+    }
+
+    @GetMapping("/users")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView getAllUsers(@AuthenticationPrincipal AuthenticationDetails details) {
+
+        List<User> users = userService.getAllUsers();
+        User user=userService.getById(details.getUserId());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("users");
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("userRoleSwitch",new UserRoleSwitch());
+
+        return modelAndView;
     }
 
 

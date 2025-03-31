@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Всички потребители</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            margin: 0;
+        }
+
+        .users-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            width: 350px;
+            height: auto;
+            transition: transform 0.2s;
+            flex-direction: column;
+        }
+
+        .user-card:hover {
+            transform: scale(1.02);
+        }
+
+        .user-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .role-buttons {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .role-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .user-role {
+            background-color: lightgray;
+            color: black;
+        }
+
+        .admin-role {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{common/header.html}"></div>
+
+<main class="users-container">
+    <div th:each="usr : ${users}" class="user-card">
+        <img th:src="${usr.imageUrl}" alt="Профилна снимка" class="user-image">
+        <div class="user-info">
+            <p>ID: <span th:text="${usr.id}"></span></p>
+            <p>Username: <span th:text="${usr.username}"></span></p>
+        </div>
+        <div class="role-buttons">
+            <form th:action="@{/users/change-role}" method="post" th:object="${userRoleSwitch}">
+                <input type="hidden" name="userId" th:value="${userRoleSwitch.id}">
+                <button type="submit" name="role" value="USER" class="user-role">Потребител</button>
+                <button type="submit" name="role" value="ADMIN" class="admin-role">Админ</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

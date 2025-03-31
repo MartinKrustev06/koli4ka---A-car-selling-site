@@ -29,7 +29,7 @@ public class MessageService {
 
     // Получава чата между двама потребители
     public List<MessageResponse> getChat(UUID senderId, UUID receiverId) {
-        return messageClient.getChat(senderId, receiverId);  // Извиква FeignClient
+        return messageClient.getChat(senderId, receiverId);
     }
 
 

@@ -87,4 +87,8 @@ public class UserService implements UserDetailsService {
         });
         return users;
     }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

@@ -8,7 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true) // Активиране на @PreAuthorize
 public class WebMvcConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,8 +28,6 @@ public class WebMvcConfiguration {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
                         .defaultSuccessUrl("/cars/search", true)
                         .failureUrl("/login?error=true")
                         .permitAll())

@@ -57,6 +57,10 @@
         .nav a:last-child {
             border-right: none;
         }
+        a{
+            text-decoration: none;
+            color:inherit;
+        }
 
     </style>
 </head>
@@ -70,6 +74,7 @@
             <a th:href="@{/info}">ИНФО</a>
             <a th:href="@{/info/career}">КАРИЕРИЕРНО РАЗВИТИЕ</a>
             <a th:href="@{/chats}">ЧАТОВЕ</a>
+            <a th:href="@{/users}" th:if="${user.role.name() == 'ADMIN'}">ПОТРЕБИТЕЛИ</a>
         </div>
         <a th:href="@{/users/{id}(id=${user.id})}" >
             <div class="profile">
