@@ -61,5 +61,14 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/users/change-role/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView changeRole(@PathVariable UUID id,@AuthenticationPrincipal AuthenticationDetails details) {
+        userService.changeRole(id);
+        ModelAndView modelAndView = new ModelAndView("redirect:/users");
+
+        return modelAndView;
+    }
+
 
 }

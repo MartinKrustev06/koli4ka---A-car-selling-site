@@ -53,26 +53,42 @@
         .role-buttons {
             margin-top: 10px;
             display: flex;
+            flex-direction: column;
             gap: 10px;
         }
 
-        .role-buttons button {
+        .role-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .current-role {
+            background-color: green;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .inactive-role {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .change-role-button {
             padding: 8px 15px;
             border: none;
             border-radius: 5px;
             font-weight: bold;
             cursor: pointer;
+            background-color: #6D28D9;
+            color: white;
             transition: background 0.2s;
         }
 
-        .user-role {
-            background-color: lightgray;
-            color: black;
-        }
-
-        .admin-role {
-            background-color: green;
-            color: white;
+        .change-role-button:hover {
+            background-color: #5a1ca3;
         }
     </style>
 </head>
@@ -86,13 +102,19 @@
             <p>ID: <span th:text="${usr.id}"></span></p>
             <p>Username: <span th:text="${usr.username}"></span></p>
         </div>
-        <div class="role-buttons">
-            <form th:action="@{/users/change-role}" method="post" th:object="${userRoleSwitch}">
-                <input type="hidden" name="userId" th:value="${userRoleSwitch.id}">
-                <button type="submit" name="role" value="USER" class="user-role">Потребител</button>
-                <button type="submit" name="role" value="ADMIN" class="admin-role">Админ</button>
-            </form>
+
+        <!-- Текущата роля на потребителя -->
+        <div class="role-text">
+            <p>Текуща роля:
+                <span th:classappend="${usr.role.name() == 'ADMIN' ? 'current-role' : 'inactive-role'}"
+                      th:text="${usr.role.name() == 'ADMIN' ? 'Админ' : 'Потребител'}"></span>
+            </p>
         </div>
+
+        <!-- Бутон за смяна на ролята (използва PathVariable) -->
+        <a th:href="@{/users/change-role/{userId}(userId=${usr.id})}" class="change-role-button">
+            Смени роля
+        </a>
     </div>
 </main>
 </body>

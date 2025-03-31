@@ -91,4 +91,18 @@ public class UserService implements UserDetailsService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public void changeRole(UUID id) {
+
+        User user=userRepository.getUserById(id);
+        if(user.getRole()==UserRole.USER) {
+            user.setRole(UserRole.ADMIN);
+        }
+        else {
+            user.setRole(UserRole.USER);
+        }
+        userRepository.save(user);
+
+
+    }
 }
