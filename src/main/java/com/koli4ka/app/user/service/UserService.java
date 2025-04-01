@@ -4,14 +4,13 @@ import com.koli4ka.app.exeption.EmailAlreadyExists;
 import com.koli4ka.app.exeption.PhoneNumberAlreadyExists;
 import com.koli4ka.app.exeption.UserNameAlreadyExists;
 import com.koli4ka.app.security.AuthenticationDetails;
+import com.koli4ka.app.web.dtos.EditUserDTO;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.user.model.UserRole;
 import com.koli4ka.app.user.repository.UserRepository;
 import com.koli4ka.app.web.dtos.RegisterRequest;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -117,5 +116,21 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
 
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.getByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+    }
+
+    public void updateProfile(UUID userId, EditUserDTO editUserDTO) {
+        User user = userRepository.getUserById(userId);
+        
+        // Update user information
+        user.setFirstName(editUserDTO.getFirstName());
+        user.setLastName(editUserDTO.getLastName());
+        user.setImageUrl(editUserDTO.getImageUrl());
+
+        userRepository.save(user);
     }
 }

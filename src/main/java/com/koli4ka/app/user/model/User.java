@@ -4,10 +4,8 @@ import com.koli4ka.app.car.model.Car;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 import java.util.List;
 import java.util.UUID;
-
 
 @Entity
 @Builder
@@ -18,7 +16,7 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID )
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(unique = true, nullable = false)
@@ -31,7 +29,7 @@ public class User {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String phone;
     @Column(nullable = false)
     private String imageUrl;
@@ -40,5 +38,4 @@ public class User {
     private UserRole role;
     @OneToMany(mappedBy = "publisher")
     private List<Car> cars;
-
 }

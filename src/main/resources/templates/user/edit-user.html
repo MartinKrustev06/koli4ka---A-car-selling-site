@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профил</title>
+    <title>Редактиране на профил</title>
     <style>
         * {
             margin: 0;
@@ -23,8 +23,6 @@
         header {
             background-color: #6D28D9;
             color: white;
-
-
         }
 
         .header-container {
@@ -40,31 +38,6 @@
             width: 120px;
             height: 120px;
         }
-        .profile{
-            display: flex;
-            text-align: center;
-            align-items: center;
-            gap: 15px;
-
-        }
-        .profile-picture-header{
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-
-
-        }
-        .profile p{
-            font-size: 18px;
-            font-weight: bolder;
-        }
-        a{
-            text-decoration: none;
-            color: inherit;
-        }
-
-
-
 
         .profile-section {
             flex-grow: 1;
@@ -72,13 +45,6 @@
             justify-content: center;
             align-items: center;
             padding: 50px 25px;
-        }
-        .profile-picture-header{
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-
-
         }
 
         .profile-container {
@@ -105,6 +71,33 @@
             margin: 18px 0;
         }
 
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #6D28D9;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #6D28D9;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
         .profile-button {
             display: block;
             background-color: #6D28D9;
@@ -126,30 +119,21 @@
             transform: scale(1.06);
         }
 
-        .logout-button {
-            background-color: red;
+        .cancel-button {
+            background-color: #666;
         }
 
-        .logout-button:hover {
-            background-color: darkred;
-        }
-        .nav {
-            display: flex;
-            gap: 10px;
-            font-weight: bolder;
+        .cancel-button:hover {
+            background-color: #555;
         }
 
-        .nav a {
-            padding-right: 10px; /* За да има малко пространство след чертичката */
-            border-right: 1px solid white; /* Чертичка между елементите */
-            text-decoration: none;
-            color: inherit;
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
-
-        .nav a:last-child {
-            border-right: none;
-        }
-
     </style>
 </head>
 <body>
@@ -157,13 +141,34 @@
 
 <section class="profile-section">
     <div class="profile-container">
-        <img th:src="${user.imageUrl}" alt="Профилна снимка" class="profile-picture">
-
+        <img th:src="${editUserDTO.imageUrl}" alt="Профилна снимка" class="profile-picture">
         <div class="username" th:text="${user.username}"></div>
-        <a th:href="@{/my-offers}" class="profile-button">Моите обяви</a>
-        <a th:href="@{/users/{id}/edit(id=${user.id})}" class="profile-button">Редактирай профил</a>
-        <a th:href="@{/logout}" class="profile-button logout-button">Изход</a>
+
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <form th:action="@{/users/{id}/edit(id=${user.id})}" th:object="${editUserDTO}" method="post">
+            <div class="form-group">
+                <label for="firstName">Име</label>
+                <input type="text" id="firstName" th:field="*{firstName}" required>
+                <div class="error-message" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Фамилия</label>
+                <input type="text" id="lastName" th:field="*{lastName}" required>
+                <div class="error-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="imageUrl">URL на профилна снимка</label>
+                <input type="text" id="imageUrl" th:field="*{imageUrl}" required>
+                <div class="error-message" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
+            </div>
+
+            <button type="submit" class="profile-button">Запази промените</button>
+            <a th:href="@{/cars/search}" class="profile-button cancel-button">Отказ</a>
+        </form>
     </div>
 </section>
 </body>
-</html>
+</html> 
