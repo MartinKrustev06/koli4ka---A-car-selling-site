@@ -1,4 +1,4 @@
-package com.koli4ka.app.user;
+package com.koli4ka.app.authDTest;
 
 import com.koli4ka.app.security.AuthenticationDetails;
 import com.koli4ka.app.user.model.UserRole;
