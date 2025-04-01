@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(MessageController.class)
-class messagecontrollertest {
+class messageControllerApitest {
 
     private MockMvc mockMvc;
 

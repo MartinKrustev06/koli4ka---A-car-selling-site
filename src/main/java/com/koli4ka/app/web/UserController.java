@@ -30,12 +30,13 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ModelAndView getProfile(@PathVariable UUID id) {
-        ModelAndView mav = new ModelAndView();
+    public String getUserProfile(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationDetails details, Model model) {
         User user = userService.getById(id);
-        mav.addObject("user", user);
-        mav.setViewName("user-profile-menu");
-        return mav;
+        User currentUser = userService.getById(details.getUserId());
+        
+        model.addAttribute("user", user);
+        model.addAttribute("currentUserId", currentUser.getId());
+        return "user-profile-menu";
     }
 
     @GetMapping("/users/{id}/edit")
@@ -79,10 +80,15 @@ public class UserController {
     public ModelAndView getSellerProfile(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationDetails details) {
         User seller = userService.getById(id);
         User user = userService.getById(details.getUserId());
-        ModelAndView mav = new ModelAndView();
+        
+        // If the user is viewing their own profile, redirect to user-profile-menu
+        if (seller.getId().equals(user.getId())) {
+            return new ModelAndView("redirect:/users/" + user.getId());
+        }
+        
+        ModelAndView mav = new ModelAndView("seller-profile");
         mav.addObject("seller", seller);
         mav.addObject("user", user);
-        mav.setViewName("seller-profile");
         return mav;
     }
 

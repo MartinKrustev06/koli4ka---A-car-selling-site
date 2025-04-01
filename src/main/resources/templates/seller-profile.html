@@ -196,8 +196,12 @@
         <img th:src="${seller.imageUrl}" alt="Профилна снимка" class="profile-picture">
         <div class="username" th:text="${seller.username}"></div>
 
-        <a th:href="@{/chat/getMessages/{senderId}/{receiverId}(senderId=${user.id}, receiverId=${seller.id})}"
+        <a th:if="${user.id != seller.id}"
+           th:href="@{/chat/getMessages/{senderId}/{receiverId}(senderId=${user.id}, receiverId=${seller.id})}"
            class="profile-button">Изпрати съобщение</a>
+           
+        <a th:href="@{/reviews/{userId}(userId=${seller.id})}"
+           class="profile-button">Виж отзивите</a>
     </div>
 </section>
 

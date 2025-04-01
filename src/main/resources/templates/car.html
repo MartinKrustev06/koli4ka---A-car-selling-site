@@ -264,6 +264,28 @@
                 border-right: none; /* Премахваме чертичката след последния елемент */
             }
         }
+
+        .seller-profile-button {
+            display: inline-block;
+            background-color: #6D28D9;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(109, 40, 217, 0.2);
+        }
+
+        .seller-profile-button:hover {
+            background-color: #5B21B6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(109, 40, 217, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -278,7 +300,7 @@
         <h2 th:text="${#strings.capitalize(car.brand.toLowerCase()) + ' ' + car.model}"></h2>
         <p th:text="${#numbers.formatInteger(car.price, 3, 'COMMA') + ' лв.'}" class="price"></p>
         <p class="location" th:text="${car.location}"></p>
-        <a th:href="@{/users/seller/{id}(id=${car.publisher.id})}"><button>Профил на продавач</button></a>
+        <a th:href="@{/users/seller/{id}(id=${car.publisher.id})}" class="seller-profile-button">Профил на продавач</a>
     </div>
 </section>
 

@@ -1,6 +1,7 @@
 package com.koli4ka.app.user.model;
 
 import com.koli4ka.app.car.model.Car;
+import com.koli4ka.app.review.model.Review;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,4 +39,6 @@ public class User {
     private UserRole role;
     @OneToMany(mappedBy = "publisher")
     private List<Car> cars;
+    @OneToMany(mappedBy = "reviewedUser")
+    private List<Review> receivedReviews;
 }

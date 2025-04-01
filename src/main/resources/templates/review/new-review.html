@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Остави отзив</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reviews-section {
+            flex-grow: 1;
+            padding: 50px 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .reviews-container {
+            background-color: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .reviews-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .reviews-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6D28D9;
+            margin-bottom: 10px;
+        }
+
+        .reviews-subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            cursor: pointer;
+            font-size: 30px;
+            color: #ddd;
+            padding: 5px;
+        }
+
+        .stars label:before {
+            content: '★';
+        }
+
+        .stars input:checked ~ label,
+        .stars label:hover,
+        .stars label:hover ~ label {
+            color: #ffd700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            color: #6D28D9;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #6D28D9;
+            outline: none;
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            background-color: #6D28D9;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #5a21b5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{common/header.html}"></div>
+
+<section class="reviews-section">
+    <div class="reviews-container">
+        <div class="reviews-header">
+            <h1 class="reviews-title">Остави отзив за <span th:text="${user.firstName + ' ' + user.lastName}">User Name</span></h1>
+            <p class="reviews-subtitle">Вашият отзив ще помогне на другите потребители да направят по-добър избор</p>
+        </div>
+
+        <form th:action="@{/reviews/user/{userId}/new(userId=${user.id})}" th:method="POST" th:object="${createReviewDto}">
+            <div class="form-group">
+                <label class="form-label">Оценка</label>
+                <div class="stars">
+                    <input type="radio" id="star5" th:field="*{stars}" value="5" required>
+                    <label for="star5"></label>
+                    <input type="radio" id="star4" th:field="*{stars}" value="4">
+                    <label for="star4"></label>
+                    <input type="radio" id="star3" th:field="*{stars}" value="3">
+                    <label for="star3"></label>
+                    <input type="radio" id="star2" th:field="*{stars}" value="2">
+                    <label for="star2"></label>
+                    <input type="radio" id="star1" th:field="*{stars}" value="1">
+                    <label for="star1"></label>
+                </div>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('stars')}" th:errors="*{stars}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="message" class="form-label">Съобщение</label>
+                <textarea class="form-control" id="message" th:field="*{message}" rows="4" required
+                          placeholder="Опишете вашето преживяване с този потребител..."></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-submit">Изпрати отзив</button>
+                <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-cancel">Отказ</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html> 

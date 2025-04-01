@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзиви</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reviews-section {
+            flex-grow: 1;
+            padding: 50px 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .reviews-container {
+            background-color: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .reviews-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6D28D9;
+        }
+
+        .add-review-button {
+            background-color: #6D28D9;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .add-review-button:hover {
+            background-color: #5a21b5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #6D28D9;
+            transition: transform 0.2s ease;
+        }
+
+        .review-card:hover {
+            transform: translateX(5px);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .reviewer-image {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid #6D28D9;
+        }
+
+        .reviewer-info {
+            flex-grow: 1;
+        }
+
+        .reviewer-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: #6D28D9;
+            margin-bottom: 5px;
+        }
+
+        .review-date {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .review-stars {
+            color: #FFD700;
+            font-size: 24px;
+            margin: 15px 0;
+            letter-spacing: 2px;
+        }
+
+        .review-message {
+            color: #333;
+            line-height: 1.6;
+            margin-top: 15px;
+            font-size: 16px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .no-reviews {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #6D28D9;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background-color: #5a21b5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{common/header.html}"></div>
+
+<section class="reviews-section">
+    <div class="reviews-container">
+        <div class="reviews-header">
+            <h1 class="reviews-title">Отзиви за <span th:text="${user.username}"></span></h1>
+            <a th:if="${#authentication.principal.userId != user.id}"
+               th:href="@{/reviews/user/{userId}/new(userId=${user.id})}"
+               class="add-review-button">Добави отзив</a>
+        </div>
+        
+        <div th:if="${#lists.isEmpty(reviews)}" class="no-reviews">
+            Все още няма получени отзиви.
+        </div>
+
+        <div th:each="review : ${reviews}" class="review-card">
+            <div class="review-header">
+                <img th:src="${review.author.imageUrl}" alt="Profile Picture" class="reviewer-image">
+                <div class="reviewer-info">
+                    <div class="reviewer-name" th:text="${review.author.username}"></div>
+                </div>
+            </div>
+            <div class="review-stars">
+                <span th:each="i : ${#numbers.sequence(0, 4)}" 
+                      th:text="${i < review.stars ? '★' : '☆'}">
+                </span>
+            </div>
+            <div class="review-message" th:text="${review.message}"></div>
+        </div>
+
+        <a th:href="@{/users/seller/{id}(id=${user.id})}" class="back-button">Назад към профила</a>
+    </div>
+</section>
+</body>
+</html> 

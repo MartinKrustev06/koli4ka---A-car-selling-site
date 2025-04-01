@@ -133,6 +133,23 @@
         .logout-button:hover {
             background-color: darkred;
         }
+
+        .review-button {
+            background-color: #4CAF50;
+        }
+
+        .review-button:hover {
+            background-color: #45a049;
+        }
+
+        .message-button {
+            background-color: #2196F3;
+        }
+
+        .message-button:hover {
+            background-color: #1976D2;
+        }
+
         .nav {
             display: flex;
             gap: 10px;
@@ -160,9 +177,14 @@
         <img th:src="${user.imageUrl}" alt="Профилна снимка" class="profile-picture">
 
         <div class="username" th:text="${user.username}"></div>
-        <a th:href="@{/my-offers}" class="profile-button">Моите обяви</a>
-        <a th:href="@{/users/{id}/edit(id=${user.id})}" class="profile-button">Редактирай профил</a>
-        <a th:href="@{/logout}" class="profile-button logout-button">Изход</a>
+        
+        <!-- Show these buttons only when viewing your own profile -->
+        <div >
+            <a th:href="@{/my-offers}" class="profile-button">Моите обяви</a>
+            <a th:href="@{/reviews/my-reviews}" class="profile-button">Моите отзиви</a>
+            <a th:href="@{/users/{id}/edit(id=${user.id})}" class="profile-button">Редактирай профил</a>
+            <a th:href="@{/logout}" class="profile-button logout-button">Изход</a>
+        </div>
     </div>
 </section>
 </body>
