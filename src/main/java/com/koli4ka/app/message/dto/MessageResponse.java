@@ -9,4 +9,6 @@ public class MessageResponse {
     private UUID senderId;
     private UUID receiverId;
     private String message;
+
+
 }
