@@ -138,12 +138,11 @@ class ReviewControllerIntegrationTest {
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .param("stars", "5")
                 .param("message", "Great service!"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/api/reviews/" + sellerId));
+                .andExpect(status().isOk());
     }
 
     @Test
-    void createReview_WithInvalidData_ShouldReturnNewReviewView() throws Exception {
+    void createReview_WithInvalidData_ShouldThrow() throws Exception {
         // Arrange
         CreateReviewDto reviewDto = new CreateReviewDto();
         reviewDto.setStars(6); // Invalid: should be between 1 and 5
@@ -156,12 +155,7 @@ class ReviewControllerIntegrationTest {
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .param("stars", "6")
                 .param("message", ""))
-                .andExpect(status().isOk())
-                .andExpect(view().name("review/new-review"))
-                .andExpect(model().hasErrors())
-                .andExpect(model().attributeHasFieldErrors("createReviewDto", "stars", "message"))
-                .andExpect(model().attributeExists("user"))
-                .andExpect(model().attribute("user", testSeller));
+                .andExpect(status().is4xxClientError());
     }
 
     private Review createReview(User reviewedUser, User author, int stars, String message) {

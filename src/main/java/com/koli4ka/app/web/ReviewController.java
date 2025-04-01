@@ -63,42 +63,10 @@ public class ReviewController {
     }
 
     @PostMapping("/user/{userId}/new")
-    public ModelAndView createReview(@PathVariable UUID userId, 
-                                   @AuthenticationPrincipal AuthenticationDetails details, 
-                                   @Valid @ModelAttribute("createReviewDto") CreateReviewDto reviewDto,
-                                   BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            ModelAndView mav = new ModelAndView("review/new-review");
-            mav.addObject("user", userService.getById(userId));
-            mav.addObject("createReviewDto", reviewDto);
-            return mav;
-        }
-        
-        ModelAndView mav = new ModelAndView();
+    public void createReview(@PathVariable UUID userId,
+                             @AuthenticationPrincipal AuthenticationDetails details,
+                             @Valid @ModelAttribute("createReviewDto") CreateReviewDto reviewDto) {
         reviewService.createReview(userId, details.getUserId(), reviewDto.getStars(), reviewDto.getMessage());
-        mav.setViewName("redirect:/api/reviews/" + userId);
-        return mav;
     }
 
-    @GetMapping("/api/my-reviews")
-    public ResponseEntity<List<Review>> getMyReviewsApi(@AuthenticationPrincipal AuthenticationDetails details) {
-        User user = userService.getById(details.getUserId());
-        List<Review> reviews = reviewService.getReviewsForUser(user.getId());
-        return ResponseEntity.ok(reviews);
-    }
-
-    @GetMapping("/api/{userId}")
-    public ResponseEntity<List<Review>> getUserReviewsApi(@PathVariable UUID userId) {
-        User user = userService.getById(userId);
-        List<Review> reviews = reviewService.getReviewsForUser(userId);
-        return ResponseEntity.ok(reviews);
-    }
-
-    @PostMapping("/api/user/{userId}/new")
-    public ResponseEntity<Void> createReviewApi(@PathVariable UUID userId,
-                                              @AuthenticationPrincipal AuthenticationDetails details,
-                                              @Valid @RequestBody CreateReviewDto reviewDto) {
-        reviewService.createReview(userId, details.getUserId(), reviewDto.getStars(), reviewDto.getMessage());
-        return ResponseEntity.created(java.net.URI.create("/api/reviews/" + userId)).build();
-    }
 } 
