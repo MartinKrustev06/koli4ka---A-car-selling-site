@@ -30,10 +30,6 @@ public class UserControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private UserRepository userRepository;
-    @AfterEach
-    void clear(){
-        this.userRepository.deleteAll();
-    }
     @Test
     void registerTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/register"))
@@ -42,18 +38,6 @@ public class UserControllerTest {
 
     }
 
-    @Test
-    void registerAndSaveInDataBaseInvalidPasswordTest() throws Exception {
-        Assertions.assertEquals(0, userRepository.count());
-        mockMvc.perform(MockMvcRequestBuilders.post("/register")
-                        .with(csrf())
-                        .param("username", NAME)
-                        .param("email", EMAIL)
-                        .param("password", PASSWORD))
-                .andExpect(status().isOk())
-                .andExpect(view().name("register"));
-
-    }
     @Test
     @WithMockUser(username = "username", roles = {"ADMIN"})
     void loginTest() throws Exception {

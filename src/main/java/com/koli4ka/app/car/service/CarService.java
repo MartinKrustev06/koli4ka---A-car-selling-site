@@ -35,8 +35,6 @@ public class CarService {
         this.entityManager = entityManager;
     }
 
-
-
     public List<Car> searchCars(SearchCarRequest request) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Car> query = cb.createQuery(Car.class);
@@ -73,35 +71,21 @@ public class CarService {
         return typedQuery.getResultList();
     }
 
-
-    public List<Car> getCars(SearchCarRequest searchCarRequest, UUID userId) {
+    public List<Car> getCars(SearchCarRequest searchCarRequest) {
         List<Car> cars;
 
         if (!searchCarRequest.hasAnyFieldFilled()) {
-            cars = carRepository.findAll()
-                    .stream()
-                    .filter(car -> !car.getPublisher().getId().equals(userId))
-                    .collect(Collectors.toList());
-            if (cars.isEmpty()) {
-                throw new NoCarsFoundExeption("Няма намерени коли по зададените критерии.");
-            }
+            cars = carRepository.findAll();
         } else {
-            cars = searchCars(searchCarRequest)
-                    .stream()
-                    .filter(car -> !car.getPublisher().getId().equals(userId))
-                    .collect(Collectors.toList());
-            if (cars.isEmpty()) {
-                throw new NoCarsFoundExeption("Няма намерени коли по зададените критерии.");
-            }
+            cars = searchCars(searchCarRequest);
         }
 
-
-
+        if (cars.isEmpty()) {
+            throw new NoCarsFoundExeption("Няма намерени коли по зададените критерии.");
+        }
 
         return cars;
     }
-
-
 
     public void addCar(CreateCarRequest createCarRequest, User user) {
         Car car = Car.builder()
@@ -118,16 +102,11 @@ public class CarService {
                 .description(createCarRequest.getDescription())
                 .publisher(user)
                 .build();
-                carRepository.save(car);
+        carRepository.save(car);
     }
 
     public Car getCar(UUID id) {
-
-        Optional<Car> byId = carRepository.findById(id);
-
-        if (byId.isPresent()) {
-            return byId.get();
-        }
-        throw new RuntimeException("");
+        return carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Колата не е намерена."));
     }
 }

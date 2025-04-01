@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.Arrays;
+import java.util.Collections;
 
 @ExtendWith(MockitoExtension.class)
 public class CarUnitTest {
@@ -115,7 +117,7 @@ public class CarUnitTest {
         when(criteriaBuilder.createQuery(Car.class)).thenReturn(criteriaQuery);
         when(criteriaQuery.from(Car.class)).thenReturn(root);
         when(entityManager.createQuery(criteriaQuery)).thenReturn(typedQuery);
-        when(typedQuery.getResultList()).thenReturn(List.of(testCar));
+        when(typedQuery.getResultList()).thenReturn(Arrays.asList(testCar));
 
         // Мокваме предикати (ако има)
         Predicate predicate = mock(Predicate.class);
@@ -142,9 +144,14 @@ public class CarUnitTest {
         SearchCarRequest request = mock(SearchCarRequest.class);
         when(request.hasAnyFieldFilled()).thenReturn(false);
 
-        when(carRepository.findAll()).thenReturn(List.of(testCar1)); // Само колата на потребителя
+        // Симулираме празен списък (няма коли)
+        when(carRepository.findAll()).thenReturn(Collections.emptyList());
 
-        assertThrows(NoCarsFoundExeption.class, () -> carService.getCars(request, userId));
+        // Очакваме изключението
+        assertThrows(NoCarsFoundExeption.class, () -> carService.getCars(request));
+
+        // Проверяваме дали методът `findAll` е извикан
+        verify(carRepository, times(1)).findAll();
     }
     @Test
     void testAddCar_Success() {

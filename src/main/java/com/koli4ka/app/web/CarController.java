@@ -48,7 +48,7 @@ public class CarController {
     public ModelAndView searchCars(@AuthenticationPrincipal AuthenticationDetails details, SearchCarRequest searchCarRequest) {
         User user = userService.getById(details.getUserId());
         ModelAndView mav = new ModelAndView("offers");
-        List<Car> cars=carService.getCars(searchCarRequest,details.getUserId());
+        List<Car> cars=carService.getCars(searchCarRequest);
         mav.addObject("cars", cars);
         mav.addObject("user", user);
         return mav;

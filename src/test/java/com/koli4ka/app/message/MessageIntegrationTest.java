@@ -35,10 +35,6 @@ public class MessageIntegrationTest {
     @InjectMocks
     private MessageController messageController;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
     @Autowired
     private MockMvc mockMvc;
 

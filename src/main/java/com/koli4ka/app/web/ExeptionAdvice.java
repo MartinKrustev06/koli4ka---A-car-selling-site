@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,22 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @ControllerAdvice
 public class ExeptionAdvice {
 
-
-
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleAnyException(Exception exception) {
-
-
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("404-exeption");
-        modelAndView.addObject("errorMessage", exception.getClass().getSimpleName());
-
-
-
-        return modelAndView;
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public void handleAuthorizationDeniedException(AuthorizationDeniedException exception) {
+        // This will return a 403 status code
     }
 
     @ExceptionHandler(NoCarsFoundExeption.class)
@@ -66,6 +55,21 @@ public class ExeptionAdvice {
 
         redirectAttributes.addFlashAttribute("phoneAlreadyExistMessage", message);
         return "redirect:/register";
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(RuntimeException.class)
+    public ModelAndView handleAnyException(Exception exception) {
+
+
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("404-exeption");
+        modelAndView.addObject("errorMessage", exception.getClass().getSimpleName());
+
+
+
+        return modelAndView;
     }
 
 
