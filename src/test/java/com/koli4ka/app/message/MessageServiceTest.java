@@ -1,5 +1,7 @@
-package com.koli4ka.app.message.client;
+package com.koli4ka.app.message;
 
+import com.koli4ka.app.message.client.MessageClient;
+import com.koli4ka.app.message.client.MessageService;
 import com.koli4ka.app.message.dto.MessageRequest;
 import com.koli4ka.app.message.dto.MessageResponse;
 import com.koli4ka.app.web.dtos.NewMessageRequest;

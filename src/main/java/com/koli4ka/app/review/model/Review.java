@@ -33,7 +33,7 @@ public class Review {
     @NotNull
     private User author;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     @Min(1)
     @Max(5)
     private int stars;
@@ -41,4 +41,11 @@ public class Review {
     @Column(columnDefinition = "TEXT")
     @NotBlank(message = "Message cannot be empty")
     private String message;
+
+    @PrePersist
+    protected void onCreate() {
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+    }
 } 

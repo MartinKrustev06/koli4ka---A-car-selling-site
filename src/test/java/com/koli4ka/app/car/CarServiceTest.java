@@ -1,9 +1,10 @@
-package com.koli4ka.app.car.service;
+package com.koli4ka.app.car;
 
 import com.koli4ka.app.car.model.Car;
 import com.koli4ka.app.car.model.FuelType;
 import com.koli4ka.app.car.model.TransmissionType;
 import com.koli4ka.app.car.repository.CarRepository;
+import com.koli4ka.app.car.service.CarService;
 import com.koli4ka.app.exeption.NoCarsFoundExeption;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.web.dtos.CreateCarRequest;

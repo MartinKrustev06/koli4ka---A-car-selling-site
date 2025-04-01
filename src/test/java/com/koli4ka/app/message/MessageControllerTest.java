@@ -71,11 +71,11 @@ class MessageControllerTest {
         when(messageService.getChat(any(UUID.class), any(UUID.class)))
                 .thenReturn(Arrays.asList(testMessage));
 
-        mockMvc.perform(get("/messages/{userId}", otherUserId)
+        mockMvc.perform(get("/chat/getMessages/{senderId}/{receiverId}", userId, otherUserId)
                 .with(user(authDetails)))
                 .andExpect(status().isOk())
-                .andExpect(view().name("messages"))
-                .andExpect(model().attributeExists("messages"))
+                .andExpect(view().name("chat"))
+                .andExpect(model().attributeExists("chatMessages"))
                 .andExpect(model().attributeExists("user"));
     }
 
@@ -88,12 +88,12 @@ class MessageControllerTest {
         request.setMessage("Test message");
         request.setSenderId(userId);
 
-        mockMvc.perform(post("/messages")
+        mockMvc.perform(post("/chat/send-message")
                 .with(user(authDetails))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .flashAttr("newMessageRequest", request))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/messages/" + otherUserId));
+                .andExpect(redirectedUrl("/chat/getMessages/" + userId + "/" + otherUserId));
     }
 
     @Test
@@ -101,26 +101,28 @@ class MessageControllerTest {
         when(userService.getById(any(UUID.class))).thenReturn(testUser);
         when(messageService.getMessagesWithUser(any(UUID.class)))
                 .thenReturn(Arrays.asList(otherUserId));
+        when(userService.getChatInfo(any())).thenReturn(Arrays.asList(testUser));
 
-        mockMvc.perform(get("/messages/chats")
+        mockMvc.perform(get("/chats")
                 .with(user(authDetails)))
                 .andExpect(status().isOk())
                 .andExpect(view().name("chats"))
-                .andExpect(model().attributeExists("chats"))
+                .andExpect(model().attributeExists("users"))
                 .andExpect(model().attributeExists("user"));
     }
 
     @Test
     void allEndpoints_WhenNotAuthenticated_ShouldRedirectToLogin() throws Exception {
-        mockMvc.perform(get("/messages/chats"))
+        mockMvc.perform(get("/chats"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
 
-        mockMvc.perform(get("/messages/" + UUID.randomUUID()))
+        mockMvc.perform(get("/chat/getMessages/{senderId}/{receiverId}", UUID.randomUUID(), UUID.randomUUID()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
 
-        mockMvc.perform(post("/messages"))
+        mockMvc.perform(post("/chat/send-message")
+                .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
     }
