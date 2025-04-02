@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface CarRepository extends JpaRepository<Car, UUID> {
     List<Car> findByPublishedAtBefore(LocalDateTime cutoffDate);
+    List<Car> findByPublisherId(UUID publisherId);
 }

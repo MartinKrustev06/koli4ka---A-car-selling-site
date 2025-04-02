@@ -132,8 +132,17 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-    // For the scheduler - no user check needed as it's a system operation
+
     public void deleteCar(UUID id) {
         carRepository.deleteById(id);
     }
+
+    public List<Car> getCarsByUserId(UUID userId) {
+        List<Car> cars = carRepository.findByPublisherId(userId);
+        if (cars.isEmpty()) {
+            throw new NoCarsFoundExeption("Нямате публикувани обяви.");
+        }
+        return cars;
+    }
+
 }

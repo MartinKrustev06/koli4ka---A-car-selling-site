@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>коли4ка - Моите обяви</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: auto;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        header {
+            background-color: #6D28D9;
+            color: white;
+        }
+
+        .profile p {
+            font-size: 18px;
+            font-weight: bolder;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .cars-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .car-ad {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .car-ad:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .car-ad img {
+            width: 100%;
+            max-width: 550px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            height: 300px;
+        }
+
+        .car-ad h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            margin-top: 25px;
+            color: #6D28D9;
+            text-align: center;
+        }
+
+        .car-ad .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 530px;
+        }
+
+        .car-ad .details p {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .car-ad .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6D28D9;
+            margin-top: 15px;
+            grid-column: span 2;
+            text-align: center;
+            background-color: #f0f0ff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .no-cars {
+            text-align: center;
+            font-size: 24px;
+            color: #666;
+            margin-top: 50px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            width: 100%;
+        }
+
+        .page-title {
+            font-size: 36px;
+            color: #6D28D9;
+            text-align: center;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .delete-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .delete-button:hover {
+            background-color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{common/header.html}"></div>
+
+    <div class="cars-container">
+        <h1 class="page-title">Моите обяви</h1>
+        
+        <div th:if="${#lists.isEmpty(cars)}" class="no-cars">
+            <p>Все още нямате публикувани обяви.</p>
+        </div>
+
+        <div th:each="car : ${cars}">
+            <div class="car-ad">
+                <a th:href="@{/cars/{id}(id=${car.id})}" style="text-decoration: none; color: inherit; width: 100%; display: flex; flex-direction: column; align-items: center;">
+                    <img th:src="${car.imageUrl}" alt="Car">
+                    <h2 th:text="${#strings.capitalize(car.brand.toLowerCase()) + ' ' + car.model}"></h2>
+                    <div class="details">
+                        <p th:text="'Мощност: ' + ${car.power} + ' к.с.'"></p>
+                        <p th:text="'Пробег: ' + ${#numbers.formatInteger(car.mileage, 3, 'COMMA')} + ' км'"></p>
+                        <p th:text="'Година: ' + ${car.year}"></p>
+                        <p th:text="'Скоростна кутия: ' + ${car.transmission}"></p>
+                        <p th:text="'Гориво: ' + ${car.fuelType}"></p>
+                        <p class="price" th:text="${#numbers.formatInteger(car.price, 3, 'COMMA') + ' лв.'}"></p>
+                    </div>
+                </a>
+                <button th:onclick="'fetch(\'' + @{/cars/{id}(id=${car.id})} + '\', {method: \'DELETE\', headers: {\'X-CSRF-TOKEN\': document.querySelector(\'meta[name=\\\'_csrf\\\']\').content}}).then(() => window.location.reload())'" class="delete-button">
+                    Изтрий обявата
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function deleteCar(button) {
+            const form = button.closest('.delete-form');
+            const url = form.getAttribute('data-url');
+            const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    [csrfHeader]: csrfToken
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert("Грешка при изтриването на обявата!");
+                }
+            }).catch(error => {
+                console.error("Error:", error);
+                alert("Грешка при изтриването на обявата!");
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.UUID;
@@ -83,8 +85,18 @@ public class CarController {
 
 
 
+    @PostMapping("/cars/{id}")
+    public ModelAndView handlePost(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationDetails details, @RequestParam(required = false) String _method) {
+        if ("delete".equals(_method)) {
+            User user = userService.getById(details.getUserId());
+            carService.deleteCar(id, user);
+            return new ModelAndView("redirect:/cars/my-cars");
+        }
+        return new ModelAndView("redirect:/cars/" + id);
+    }
+
     @GetMapping("/cars/{id}")
-    public ModelAndView getCar(@PathVariable UUID id,@AuthenticationPrincipal AuthenticationDetails details) {
+    public ModelAndView getCar(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationDetails details) {
         Car car = carService.getCar(id);
         User user = userService.getById(details.getUserId());
         boolean isFavorited = favoriteCarService.isCarFavorited(id, user.getId());
@@ -97,14 +109,19 @@ public class CarController {
     }
 
     @DeleteMapping("/cars/{id}")
-    public ModelAndView deleteCar(@PathVariable UUID id,@AuthenticationPrincipal AuthenticationDetails details) {
+    public ModelAndView deleteCar(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationDetails details) {
         User user = userService.getById(details.getUserId());
-
-        carService.deleteCar(id,user);
-        return new ModelAndView("redirect:/cars/search");
+        carService.deleteCar(id, user);
+        return new ModelAndView("redirect:/cars/my-cars");
     }
 
-
-
+    @GetMapping("/my-cars")
+    public ModelAndView getMyCars(@AuthenticationPrincipal AuthenticationDetails details) {
+        User user = userService.getById(details.getUserId());
+        ModelAndView mav = new ModelAndView("my-cars");
+        mav.addObject("cars", carService.getCarsByUserId(details.getUserId()));
+        mav.addObject("user", user);
+        return mav;
+    }
 
 }
