@@ -163,7 +163,7 @@
             <p class="reviews-subtitle">Вашият отзив ще помогне на другите потребители да направят по-добър избор</p>
         </div>
 
-        <form th:action="@{/reviews/user/{userId}/new(userId=${user.id})}" th:method="POST" th:object="${createReviewDto}">
+        <form th:action="@{/reviews/user/{userId}/new(userId=${seller.id})}" th:method="POST" th:object="${createReviewDto}">
             <div class="form-group">
                 <label class="form-label">Оценка</label>
                 <div class="stars">
@@ -190,7 +190,7 @@
 
             <div class="button-group">
                 <button type="submit" class="btn btn-submit">Изпрати отзив</button>
-                <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-cancel">Отказ</a>
+                <a th:href="@{/cars/search}" class="btn btn-cancel">Отказ</a>
             </div>
         </form>
     </div>

@@ -159,25 +159,58 @@ class CarServiceTest {
 
     @Test
     void getCar_WhenCarExists_ShouldReturnCar() {
-        // Arrange
         when(carRepository.findById(testCar.getId())).thenReturn(Optional.of(testCar));
 
-        // Act
         Car result = carService.getCar(testCar.getId());
 
-        // Assert
+        assertNotNull(result);
         assertEquals(testCar, result);
-        verify(carRepository).findById(testCar.getId());
     }
 
     @Test
     void getCar_WhenCarDoesNotExist_ShouldThrowException() {
+        when(carRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> carService.getCar(UUID.randomUUID()));
+    }
+
+    @Test
+    void deleteCar_WhenUserIsOwner_ShouldDeleteCar() {
         // Arrange
-        UUID nonExistentId = UUID.randomUUID();
-        when(carRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+        User owner = new User();
+        owner.setId(UUID.randomUUID());
+        testCar.setPublisher(owner);
+        when(carRepository.findById(testCar.getId())).thenReturn(Optional.of(testCar));
+
+        // Act
+        carService.deleteCar(testCar.getId(), owner);
+
+        // Assert
+        verify(carRepository).deleteById(testCar.getId());
+    }
+
+    @Test
+    void deleteCar_WhenUserIsNotOwner_ShouldThrowException() {
+        // Arrange
+        User owner = new User();
+        owner.setId(UUID.randomUUID());
+        User nonOwner = new User();
+        nonOwner.setId(UUID.randomUUID());
+        testCar.setPublisher(owner);
+        when(carRepository.findById(testCar.getId())).thenReturn(Optional.of(testCar));
 
         // Act & Assert
-        assertThrows(RuntimeException.class, () -> carService.getCar(nonExistentId));
-        verify(carRepository).findById(nonExistentId);
+        assertThrows(RuntimeException.class, () -> carService.deleteCar(testCar.getId(), nonOwner));
+        verify(carRepository, never()).deleteById(any(UUID.class));
+    }
+
+    @Test
+    void deleteCar_WhenCarDoesNotExist_ShouldThrowException() {
+        // Arrange
+        when(carRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> carService.deleteCar(UUID.randomUUID(), new User()));
+        verify(carRepository, never()).deleteById(any(UUID.class));
     }
 } 

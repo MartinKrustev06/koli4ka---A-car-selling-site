@@ -162,9 +162,8 @@
 <section class="reviews-section">
     <div class="reviews-container">
         <div class="reviews-header">
-            <h1 class="reviews-title">Отзиви за <span th:text="${user.username}"></span></h1>
-            <a th:if="${#authentication.principal.userId != user.id}"
-               th:href="@{/reviews/user/{userId}/new(userId=${user.id})}"
+            <h1 class="reviews-title">Отзиви за <span th:text="${seller.username}"></span></h1>
+            <a th:href="@{/reviews/user/{userId}/new(userId=${seller.id})}"
                class="add-review-button">Добави отзив</a>
         </div>
         

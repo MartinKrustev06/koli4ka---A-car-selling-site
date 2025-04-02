@@ -21,7 +21,7 @@ import java.util.UUID;
 
 @Controller
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/reviews")
 public class ReviewController {
     private final ReviewService reviewService;
     private final UserService userService;
@@ -43,30 +43,36 @@ public class ReviewController {
     }
 
     @GetMapping("/{userId}")
-    public ModelAndView getUserReviews(@PathVariable UUID userId) {
-        User user = userService.getById(userId);
+    public ModelAndView getUserReviews(@PathVariable UUID userId,@AuthenticationPrincipal AuthenticationDetails details) {
+        User user = userService.getById(details.getUserId());
         List<Review> reviews = reviewService.getReviewsForUser(userId);
+        User seller= userService.getById(userId);
         
         ModelAndView mav = new ModelAndView("review/user-reviews");
         mav.addObject("user", user);
+        mav.addObject("seller", seller);
         mav.addObject("reviews", reviews);
         return mav;
     }
 
     @GetMapping("/user/{userId}/new")
-    public ModelAndView showNewReviewForm(@PathVariable UUID userId) {
-        User user = userService.getById(userId);
+    public ModelAndView showNewReviewForm(@PathVariable UUID userId,@AuthenticationPrincipal AuthenticationDetails details) {
+        User user = userService.getById(details.getUserId());
+        User seller= userService.getById(userId);
         ModelAndView mav = new ModelAndView("review/new-review");
         mav.addObject("user", user);
+        mav.addObject("seller", seller);
         mav.addObject("createReviewDto", new CreateReviewDto());
         return mav;
     }
 
     @PostMapping("/user/{userId}/new")
-    public void createReview(@PathVariable UUID userId,
+    public ModelAndView createReview(@PathVariable UUID userId,
                              @AuthenticationPrincipal AuthenticationDetails details,
                              @Valid @ModelAttribute("createReviewDto") CreateReviewDto reviewDto) {
         reviewService.createReview(userId, details.getUserId(), reviewDto.getStars(), reviewDto.getMessage());
+        return new ModelAndView("redirect:/reviews/" + userId);
+
     }
 
 } 
