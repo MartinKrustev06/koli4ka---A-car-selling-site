@@ -11,8 +11,8 @@ import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -94,6 +94,14 @@ public class CarController {
         return mav;
 
 
+    }
+
+    @DeleteMapping("/cars/{id}")
+    public ModelAndView deleteCar(@PathVariable UUID id,@AuthenticationPrincipal AuthenticationDetails details) {
+        User user = userService.getById(details.getUserId());
+
+        carService.deleteCar(id,user);
+        return new ModelAndView("redirect:/cars/search");
     }
 
 

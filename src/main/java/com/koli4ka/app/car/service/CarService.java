@@ -2,7 +2,6 @@ package com.koli4ka.app.car.service;
 
 import com.koli4ka.app.car.model.Car;
 import com.koli4ka.app.car.repository.CarRepository;
-import com.koli4ka.app.exeption.EmailAlreadyExists;
 import com.koli4ka.app.exeption.NoCarsFoundExeption;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.web.dtos.CreateCarRequest;
@@ -13,7 +12,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class CarService {
@@ -108,5 +105,20 @@ public class CarService {
     public Car getCar(UUID id) {
         return carRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Колата не е намерена."));
+    }
+
+    public void deleteCar(UUID id, User user) {
+        Optional<Car> car = carRepository.findById(id);
+
+        if (!car.isPresent()) {
+            throw new RuntimeException("Колата не е намерена.");
+        }
+
+        if(car.get().getPublisher().getId().equals(user.getId())){
+            carRepository.deleteById(id);
+        }
+        else {
+            throw new RuntimeException("Нямате право");
+        }
     }
 }
