@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>коли4ка - Обява за кола</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -300,23 +301,12 @@
         <h2 th:text="${#strings.capitalize(car.brand.toLowerCase()) + ' ' + car.model}"></h2>
         <p th:text="${#numbers.formatInteger(car.price, 3, 'COMMA') + ' лв.'}" class="price"></p>
         <p class="location" th:text="${car.location}"></p>
-        <a th:href="@{/users/seller/{id}(id=${car.publisher.id})}" class="seller-profile-button">Профил на продавач</a>
-        <div class="favorite-button">
-            <form th:if="${!favoriteCarService.isCarFavorited(car.id, user.id)}" 
-                  th:action="@{/favorites/cars/{id}(id=${car.id})}" 
-                  method="post" 
-                  style="display: inline;">
-                <button type="submit" class="btn btn-outline-primary">
-                    <i class="fas fa-heart"></i> Add to Favorites
-                </button>
-            </form>
-            <form th:if="${favoriteCarService.isCarFavorited(car.id, user.id)}" 
-                  th:action="@{/favorites/cars/{id}(id=${car.id})}" 
-                  method="post" 
-                  style="display: inline;">
-                <input type="hidden" name="_method" value="delete">
-                <button type="submit" class="btn btn-danger">
-                    <i class="fas fa-heart"></i> Remove from Favorites
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <a th:href="@{/users/seller/{id}(id=${car.publisher.id})}" class="seller-profile-button">Профил на продавач</a>
+            <form th:action="@{/favorite/{id}(id=${car.id})}" method="post" style="margin: 0;">
+                <button type="submit" class="favorite-button" style="background: none; border: none; cursor: pointer; font-size: 24px; color: #6D28D9; text-decoration: none;">
+                    <i th:if="${!isFavorited}" class="far fa-star"></i>
+                    <i th:if="${isFavorited}" class="fas fa-star"></i>
                 </button>
             </form>
         </div>
@@ -352,15 +342,5 @@
     <h3>Допълнителна информация:</h3>
     <p  th:text="${car.description}"></p>
 </section>
-
-<script>
-    // let currentImageIndex = 0;
-    // const images = document.querySelectorAll('.car-images img');
-    // function changeImage(direction) {
-    //     images[currentImageIndex].classList.remove('active');
-    //     currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
-    //     images[currentImageIndex].classList.add('active');
-    // }
-</script>
 </body>
 </html>

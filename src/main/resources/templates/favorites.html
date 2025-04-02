@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>коли4ка - Харесани обяви</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: auto;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #EDE7F6;
+            color: #6D28D9;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        header {
+            background-color: #6D28D9;
+            color: white;
+        }
+
+        .profile p {
+            font-size: 18px;
+            font-weight: bolder;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .ads-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .car-ad {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .car-ad:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .car-ad img {
+            width: 100%;
+            max-width: 550px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            height: 300px;
+        }
+
+        .car-ad h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            margin-top: 25px;
+            color: #6D28D9;
+            text-align: center;
+        }
+
+        .car-ad .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 530px;
+        }
+
+        .car-ad .details p {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .car-ad .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6D28D9;
+            margin-top: 15px;
+            grid-column: span 2;
+            text-align: center;
+            background-color: #f0f0ff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .favorite-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 28px;
+            color: #6D28D9;
+            transition: transform 0.3s ease;
+        }
+
+        .favorite-button:hover {
+            transform: scale(1.2);
+        }
+
+        .no-favorites {
+            text-align: center;
+            font-size: 24px;
+            color: #666;
+            margin-top: 50px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{common/header.html}"></div>
+
+    <div class="ads-container">
+        <div th:if="${#lists.isEmpty(favoriteCars)}" class="no-favorites">
+            <p>Все още нямате харесани обяви.</p>
+        </div>
+
+        <a th:href="@{/cars/{id}(id=${car.id})}" class="car-ad" th:each="car : ${favoriteCars}">
+            <button th:onclick="'window.location.href=\'' + @{/favorite/{id}(id=${car.id})} + '\''" class="favorite-button">
+                <i class="fas fa-star"></i>
+            </button>
+            <img th:src="${car.imageUrl}" alt="Car">
+            <h2 th:text="${#strings.capitalize(car.brand.toLowerCase()) + ' ' + car.model}"></h2>
+            <div class="details">
+                <p th:text="'Мощност: ' + ${car.power} + ' к.с.'"></p>
+                <p th:text="'Пробег: ' + ${#numbers.formatInteger(car.mileage, 3, 'COMMA')} + ' км'"></p>
+                <p th:text="'Година: ' + ${car.year}"></p>
+                <p th:text="'Скоростна кутия: ' + ${car.transmission}"></p>
+                <p th:text="'Гориво: ' + ${car.fuelType}"></p>
+                <p class="price" th:text="${#numbers.formatInteger(car.price, 3, 'COMMA') + ' лв.'}"></p>
+            </div>
+        </a>
+    </div>
+</body>
+</html> 

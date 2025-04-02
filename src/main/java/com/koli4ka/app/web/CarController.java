@@ -2,6 +2,7 @@ package com.koli4ka.app.web;
 
 import com.koli4ka.app.car.model.Car;
 import com.koli4ka.app.car.service.CarService;
+import com.koli4ka.app.favoriteCar.service.FavoriteCarService;
 import com.koli4ka.app.security.AuthenticationDetails;
 import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.user.service.UserService;
@@ -26,11 +27,13 @@ public class CarController {
 
     private final CarService carService;
     private final UserService userService;
+    private final FavoriteCarService favoriteCarService;
 
 
-    public CarController(CarService carService, UserService userService) {
+    public CarController(CarService carService, UserService userService, FavoriteCarService favoriteCarService) {
         this.carService = carService;
         this.userService = userService;
+        this.favoriteCarService = favoriteCarService;
     }
 
     @GetMapping("/cars/search")
@@ -82,18 +85,15 @@ public class CarController {
 
     @GetMapping("/cars/{id}")
     public ModelAndView getCar(@PathVariable UUID id,@AuthenticationPrincipal AuthenticationDetails details) {
-
         Car car = carService.getCar(id);
         User user = userService.getById(details.getUserId());
+        boolean isFavorited = favoriteCarService.isCarFavorited(id, user.getId());
+        
         ModelAndView mav = new ModelAndView("car");
         mav.addObject("car", car);
         mav.addObject("user", user);
-
-
-
+        mav.addObject("isFavorited", isFavorited);
         return mav;
-
-
     }
 
     @DeleteMapping("/cars/{id}")
