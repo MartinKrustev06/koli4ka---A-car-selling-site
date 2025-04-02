@@ -35,6 +35,7 @@ public class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/register"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"));
+        //tests dont save
 
     }
 
