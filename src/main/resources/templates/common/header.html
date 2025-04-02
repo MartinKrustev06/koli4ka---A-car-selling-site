@@ -64,27 +64,18 @@
         <a th:href="@{/cars/search}"><img src="/images/koli4ka-logo.png" alt="Лого" class="header-logo"></a>
         <div class="nav">
             <a th:href="@{/cars/search}">ТЪРСЕНЕ</a>
-            <a th:href="@{/cars/favorites}" th:if="${#authentication.principal != 'anonymousUser'}">ХАРЕСАНИ ОБЯВИ</a>
+            <a th:href="@{/cars/favorites}">ХАРЕСАНИ ОБЯВИ</a>
             <a th:href="@{/info}">ИНФО</a>
             <a th:href="@{/info/career}">КАРИЕРИЕРНО РАЗВИТИЕ</a>
-            <a th:href="@{/chats}" th:if="${#authentication.principal != 'anonymousUser'}">ЧАТОВЕ</a>
-            <a th:href="@{/users}" th:if="${#authentication.principal != 'anonymousUser' and user != null and user.role.name() == 'ADMIN'}">ПОТРЕБИТЕЛИ</a>
+            <a th:href="@{/chats}">ЧАТОВЕ</a>
+            <a th:href="@{/users}" th:if="${user.role.name() == 'ADMIN'}">ПОТРЕБИТЕЛИ</a>
         </div>
-        <div th:if="${#authentication.principal != 'anonymousUser' and user != null}">
-            <a th:href="@{/users/{id}(id=${user.id})}">
-                <div class="profile">
-                    <img class="profile-picture" th:src="${user.imageUrl}" alt="snimka">
-                    <p th:text="${user.firstName}">ivan</p>
-                </div>
-            </a>
-        </div>
-        <div th:unless="${#authentication.principal != 'anonymousUser' and user != null}">
-            <a th:href="@{/login}">
-                <div class="profile">
-                    <p>Вход</p>
-                </div>
-            </a>
-        </div>
+        <a th:href="@{/users/{id}(id=${user.id})}" >
+            <div class="profile">
+                <img class="profile-picture" th:src="${user.getImageUrl()}" alt="snimka">
+                <p th:text="${user.firstName}" >ivan</p>
+            </div>
+        </a>
     </div>
 </header>
 </body>

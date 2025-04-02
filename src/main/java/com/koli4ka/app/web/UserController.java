@@ -6,6 +6,7 @@ import com.koli4ka.app.user.model.User;
 import com.koli4ka.app.user.service.UserService;
 import com.koli4ka.app.web.dtos.UserRoleSwitch;
 import jakarta.validation.Valid;
+import org.bouncycastle.math.raw.Mod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}/edit")
-    public String showEditForm(@PathVariable UUID id, Model model) {
+    public ModelAndView showEditForm(@PathVariable UUID id, Model model) {
         User user = userService.getById(id);
         EditUserDTO editUserDTO = EditUserDTO.builder()
                 .firstName(user.getFirstName())
@@ -49,32 +50,24 @@ public class UserController {
                 .build();
         model.addAttribute("editUserDTO", editUserDTO);
         model.addAttribute("user", user);
-        return "user/edit-user";
+        return new ModelAndView("edit-user");
     }
 
     @PostMapping("/users/{id}/edit")
-    public String editProfile(@PathVariable UUID id,
-                            @Valid @ModelAttribute("editUserDTO") EditUserDTO editUserDTO,
-                            BindingResult bindingResult,
-                            Model model,
-                            RedirectAttributes redirectAttributes) {
+    public ModelAndView editProfile(@PathVariable UUID id,
+                                    @Valid @ModelAttribute("editUserDTO") EditUserDTO editUserDTO,
+                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             User user = userService.getById(id);
-            model.addAttribute("user", user);
-            return "user/edit-user";
+            ModelAndView mav = new ModelAndView("edit-user");
+            mav.addObject("user", user);
+            return mav;
         }
 
-        try {
-            userService.updateProfile(id, editUserDTO);
-            redirectAttributes.addFlashAttribute("successMessage", "Профилът е обновен успешно!");
-            return "redirect:/cars/search";
-        } catch (Exception e) {
-            User user = userService.getById(id);
-            model.addAttribute("user", user);
-            model.addAttribute("error", e.getMessage());
-            return "user/edit-user";
-        }
+        userService.updateProfile(id, editUserDTO);
+        return new ModelAndView("redirect:/cars/search");
     }
+
 
     @GetMapping("/users/seller/{id}")
     public ModelAndView getSellerProfile(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationDetails details) {

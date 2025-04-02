@@ -301,6 +301,25 @@
         <p th:text="${#numbers.formatInteger(car.price, 3, 'COMMA') + ' лв.'}" class="price"></p>
         <p class="location" th:text="${car.location}"></p>
         <a th:href="@{/users/seller/{id}(id=${car.publisher.id})}" class="seller-profile-button">Профил на продавач</a>
+        <div class="favorite-button">
+            <form th:if="${!favoriteCarService.isCarFavorited(car.id, user.id)}" 
+                  th:action="@{/favorites/cars/{id}(id=${car.id})}" 
+                  method="post" 
+                  style="display: inline;">
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="fas fa-heart"></i> Add to Favorites
+                </button>
+            </form>
+            <form th:if="${favoriteCarService.isCarFavorited(car.id, user.id)}" 
+                  th:action="@{/favorites/cars/{id}(id=${car.id})}" 
+                  method="post" 
+                  style="display: inline;">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-heart"></i> Remove from Favorites
+                </button>
+            </form>
+        </div>
     </div>
 </section>
 

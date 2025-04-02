@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -28,7 +30,7 @@ public class Car {
     @Column(nullable = false)
     private String model;
 
-    @Column(nullable = false)
+    @Column( nullable = false)
     private int year;
 
     @Column(nullable = false)
@@ -59,6 +61,9 @@ public class Car {
 
     @ManyToOne
     private User publisher;
+
+    @Column(nullable = false)
+    private LocalDateTime publishedAt;
 
 
 

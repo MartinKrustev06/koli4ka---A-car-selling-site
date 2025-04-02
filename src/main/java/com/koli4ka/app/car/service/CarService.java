@@ -15,10 +15,12 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CarService {
@@ -89,15 +91,16 @@ public class CarService {
                 .brand(createCarRequest.getBrand())
                 .model(createCarRequest.getModel())
                 .year(createCarRequest.getYear())
-                .price(createCarRequest.getPrice())
-                .transmission(createCarRequest.getTransmission())
-                .fuelType(createCarRequest.getFuelType())
                 .power(createCarRequest.getPower())
-                .imageUrl(createCarRequest.getImageUrl())
-                .mileage(createCarRequest.getMileage())
+                .fuelType(createCarRequest.getFuelType())
+                .transmission(createCarRequest.getTransmission())
+                .price(createCarRequest.getPrice())
                 .location(createCarRequest.getLocation())
                 .description(createCarRequest.getDescription())
+                .imageUrl(createCarRequest.getImageUrl())
+                .mileage(createCarRequest.getMileage())
                 .publisher(user)
+                .publishedAt(LocalDateTime.now())
                 .build();
         carRepository.save(car);
     }
@@ -120,5 +123,17 @@ public class CarService {
         else {
             throw new RuntimeException("Нямате право");
         }
+    }
+
+    public List<UUID> findCarsPublishedBefore(LocalDateTime cutoffDate) {
+        return carRepository.findByPublishedAtBefore(cutoffDate)
+                .stream()
+                .map(Car::getId)
+                .collect(Collectors.toList());
+    }
+
+    // For the scheduler - no user check needed as it's a system operation
+    public void deleteCar(UUID id) {
+        carRepository.deleteById(id);
     }
 }
