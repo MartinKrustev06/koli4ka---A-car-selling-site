@@ -112,15 +112,13 @@ public class CarService {
 
     public void deleteCar(UUID id, User user) {
         Optional<Car> car = carRepository.findById(id);
-
         if (!car.isPresent()) {
             throw new RuntimeException("Колата не е намерена.");
         }
 
-        if(car.get().getPublisher().getId().equals(user.getId())){
+        if(car.get().getPublisher().getId().equals(user.getId())) {
             carRepository.deleteById(id);
-        }
-        else {
+        } else {
             throw new RuntimeException("Нямате право");
         }
     }
@@ -132,17 +130,15 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-
     public void deleteCar(UUID id) {
+        if (!carRepository.existsById(id)) {
+            throw new RuntimeException("Колата не е намерена.");
+        }
         carRepository.deleteById(id);
     }
 
     public List<Car> getCarsByUserId(UUID userId) {
-        List<Car> cars = carRepository.findByPublisherId(userId);
-        if (cars.isEmpty()) {
-            throw new NoCarsFoundExeption("Нямате публикувани обяви.");
-        }
-        return cars;
+        return carRepository.findByPublisherId(userId);
     }
 
 }

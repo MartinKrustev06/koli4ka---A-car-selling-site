@@ -90,7 +90,7 @@ public class CarController {
         if ("delete".equals(_method)) {
             User user = userService.getById(details.getUserId());
             carService.deleteCar(id, user);
-            return new ModelAndView("redirect:/cars/my-cars");
+            return new ModelAndView("redirect:/cars/search");
         }
         return new ModelAndView("redirect:/cars/" + id);
     }
@@ -112,7 +112,7 @@ public class CarController {
     public ModelAndView deleteCar(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationDetails details) {
         User user = userService.getById(details.getUserId());
         carService.deleteCar(id, user);
-        return new ModelAndView("redirect:/cars/my-cars");
+        return new ModelAndView("redirect:/cars/search");
     }
 
     @GetMapping("/my-cars")

@@ -15,15 +15,12 @@
         }
 
         body, html {
-            height: auto;
-            min-height: 100%;
-            font-family: Arial, sans-serif;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
             background-color: #EDE7F6;
-            color: #6D28D9;
+            color: #333;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-            overflow-y: auto;
         }
 
         header {
@@ -62,7 +59,6 @@
             flex-direction: column;
             align-items: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
         }
 
         .car-ad:hover {
@@ -162,6 +158,9 @@
         
         <div th:if="${#lists.isEmpty(cars)}" class="no-cars">
             <p>Все още нямате публикувани обяви.</p>
+            <a th:href="@{/cars/search}" style="display: inline-block; margin-top: 15px; padding: 8px 16px; background-color: #6D28D9; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; width: 200px;">
+                Назад към профила
+            </a>
         </div>
 
         <div th:each="car : ${cars}">
