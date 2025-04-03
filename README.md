@@ -18,4 +18,7 @@ https://hub.docker.com/r/martinkrastev06/koli4ka-messaging-service
 
 Използва Spring Boot за бекенд и MySQL за база данни.
 
+Трябва в application-properties да сложите вашето потребителско име и парола за базата , за да може да работи.
+Стартира се на порт 8080 за главното и контактува със сървиса на 8000
+
 
