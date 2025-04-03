@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "message-svc", url = "http://localhost:8000")
+@FeignClient(name = "message-svc", url = "${MESSAGING_SERVICE_URL:http://localhost:8000}")
 public interface MessageClient {
 
     @PostMapping("/api/v1/messages")
