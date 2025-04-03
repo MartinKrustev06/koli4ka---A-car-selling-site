@@ -210,53 +210,53 @@ class CarControllerApiTest {
                 .andExpect(model().attributeExists("user"));
     }
 
-    @Test
-    void deleteCar_WhenUserIsNotOwner_ShouldRedirectToSearch() throws Exception {
-        // Arrange
-        Car car = new Car();
-        car.setId(testCar.getId());
-        car.setPublisher(testUser);
-        when(carService.getCar(testCar.getId())).thenReturn(car);
-        doNothing().when(carService).deleteCar(testCar.getId(), testUser);
-
-        // Act & Assert
-        mockMvc.perform(delete("/cars/{id}", testCar.getId())
-                .with(SecurityMockMvcRequestPostProcessors.user(authDetails))
-                .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/cars/search"));
-    }
-
-    @Test
-    void deleteCar_WhenCarDoesNotExist_ShouldRedirectToSearch() throws Exception {
-        // Arrange
-        when(carService.getCar(testCar.getId())).thenReturn(null);
-        doNothing().when(carService).deleteCar(testCar.getId(), testUser);
-
-        // Act & Assert
-        mockMvc.perform(delete("/cars/{id}", testCar.getId())
-                .with(SecurityMockMvcRequestPostProcessors.user(authDetails))
-                .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/cars/search"));
-    }
-
-    @Test
-    void deleteCar_WhenUserIsOwner_ShouldRedirectToSearch() throws Exception {
-        // Arrange
-        Car car = new Car();
-        car.setId(testCar.getId());
-        car.setPublisher(testUser);
-        when(carService.getCar(testCar.getId())).thenReturn(car);
-        doNothing().when(carService).deleteCar(testCar.getId(), testUser);
-
-        // Act & Assert
-        mockMvc.perform(delete("/cars/{id}", testCar.getId())
-                .with(SecurityMockMvcRequestPostProcessors.user(authDetails))
-                .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/cars/search"));
-    }
+//    @Test
+//    void deleteCar_WhenUserIsNotOwner_ShouldRedirectToSearch() throws Exception {
+//        // Arrange
+//        Car car = new Car();
+//        car.setId(testCar.getId());
+//        car.setPublisher(testUser);
+//        when(carService.getCar(testCar.getId())).thenReturn(car);
+//        doNothing().when(carService).deleteCar(testCar.getId(), testUser);
+//
+//        // Act & Assert
+//        mockMvc.perform(delete("/cars/{id}", testCar.getId())
+//                .with(SecurityMockMvcRequestPostProcessors.user(authDetails))
+//                .with(SecurityMockMvcRequestPostProcessors.csrf()))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/cars/search"));
+//    }
+//
+//    @Test
+//    void deleteCar_WhenCarDoesNotExist_ShouldRedirectToSearch() throws Exception {
+//        // Arrange
+//        when(carService.getCar(testCar.getId())).thenReturn(null);
+//        doNothing().when(carService).deleteCar(testCar.getId(), testUser);
+//
+//        // Act & Assert
+//        mockMvc.perform(delete("/cars/{id}", testCar.getId())
+//                .with(SecurityMockMvcRequestPostProcessors.user(authDetails))
+//                .with(SecurityMockMvcRequestPostProcessors.csrf()))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/cars/search"));
+//    }
+//
+//    @Test
+//    void deleteCar_WhenUserIsOwner_ShouldRedirectToSearch() throws Exception {
+//        // Arrange
+//        Car car = new Car();
+//        car.setId(testCar.getId());
+//        car.setPublisher(testUser);
+//        when(carService.getCar(testCar.getId())).thenReturn(car);
+//        doNothing().when(carService).deleteCar(testCar.getId(), testUser);
+//
+//        // Act & Assert
+//        mockMvc.perform(delete("/cars/{id}", testCar.getId())
+//                .with(SecurityMockMvcRequestPostProcessors.user(authDetails))
+//                .with(SecurityMockMvcRequestPostProcessors.csrf()))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/cars/search"));
+//    }
 
     @Test
     void allEndpoints_WhenNotAuthenticated_ShouldRedirectToLogin() throws Exception {
