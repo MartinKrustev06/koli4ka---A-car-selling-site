@@ -4,6 +4,7 @@ Koli4ka - A Car Selling Site
 За да използвате този проект, трябва да изтеглите допълнително репозитори https://github.com/MartinKrustev06/MessagesService
 
 https://hub.docker.com/r/martinkrastev06/koli4ka-main-app
+----------------------------------------------------------
 https://hub.docker.com/r/martinkrastev06/koli4ka-messaging-service
 
 Описание:
